@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 // Modul Autentikasi (Zahra). Route dari Breeze. Fitur lupa password, verifikasi email,
 // dan konfirmasi password tidak dipakai karena tidak ada di ERD dan desain.
+// Ganti kata sandi digabung ke halaman Edit Profil (routes/modules/akun.php).
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -20,8 +20,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
