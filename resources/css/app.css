@@ -1,0 +1,216 @@
+/* Font dibundel lewat Vite (tidak memanggil CDN) */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource/cormorant-garamond/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply bg-ivory font-sans text-isi text-cokelat antialiased;
+    }
+
+    ::selection {
+        @apply bg-emas/40 text-cokelat;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* ---------- Tata letak ---------- */
+    .wadah {
+        @apply mx-auto w-full max-w-[1440px] px-5 md:px-10 lg:px-20;
+    }
+
+    /* ---------- Tipografi (gaya teks Figma) ---------- */
+    .teks-display-xl {
+        @apply font-display text-display-xl-ponsel font-medium lg:text-display-xl;
+    }
+
+    .teks-display-l {
+        @apply font-display text-display-l-ponsel font-medium lg:text-display-l;
+    }
+
+    .teks-h1 {
+        @apply font-display text-h1-ponsel font-semibold lg:text-h1;
+    }
+
+    .teks-h2 {
+        @apply font-display text-h2-ponsel font-semibold lg:text-h2;
+    }
+
+    .teks-h3 {
+        @apply font-display text-h3-ponsel font-semibold lg:text-h3;
+    }
+
+    .teks-angka {
+        @apply font-display text-angka-ponsel font-medium lg:text-angka;
+    }
+
+    .teks-lead {
+        @apply text-lead-ponsel lg:text-lead;
+    }
+
+    .teks-label-kecil {
+        @apply text-label-kecil font-semibold;
+    }
+
+    /* Bagian judul yang dimiringkan, misal "Halo, <em>Nama</em>" */
+    .aksen-miring {
+        @apply font-display font-medium italic text-maroon;
+    }
+
+    /* ---------- Tombol ---------- */
+    .tombol {
+        @apply inline-flex h-12 select-none items-center justify-center gap-2 whitespace-nowrap rounded-kecil px-6 font-sans text-tombol font-semibold transition duration-150 ease-out;
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cokelat focus-visible:ring-offset-2 focus-visible:ring-offset-ivory;
+        @apply active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:opacity-45;
+    }
+
+    .tombol-kecil {
+        @apply h-10 px-4;
+    }
+
+    .tombol-utama {
+        @apply bg-maroon text-putih hover:bg-maroon-hover;
+    }
+
+    .tombol-garis {
+        @apply border border-cokelat text-cokelat hover:bg-cokelat hover:text-ivory;
+    }
+
+    .tombol-terang {
+        @apply bg-ivory text-cokelat hover:bg-emas;
+    }
+
+    .tombol-bahaya {
+        @apply bg-status-ditolak-teks text-putih hover:bg-maroon-hover;
+    }
+
+    .tombol-ikon {
+        @apply inline-flex size-11 items-center justify-center rounded-kecil border border-garis-kuat text-cokelat transition hover:border-cokelat hover:bg-putih;
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cokelat focus-visible:ring-offset-2 focus-visible:ring-offset-ivory;
+    }
+
+    /* ---------- Tautan teks ---------- */
+    .tautan {
+        @apply inline-flex items-center gap-1 border-b border-emas pb-0.5 text-label font-semibold text-maroon transition hover:border-maroon hover:text-maroon-hover;
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cokelat focus-visible:ring-offset-2;
+    }
+
+    /* ---------- Kolom isian ---------- */
+    .kolom-label {
+        @apply flex gap-[3px] text-label font-semibold text-cokelat;
+    }
+
+    .kolom-input {
+        @apply block h-12 w-full rounded-input border border-garis-kuat bg-putih px-4 text-isi text-cokelat placeholder:text-cokelat-600 transition;
+        @apply focus:border-cokelat focus:outline-none focus:ring-1 focus:ring-cokelat;
+        @apply disabled:border-garis-kuat disabled:bg-lembut disabled:text-cokelat-600;
+    }
+
+    textarea.kolom-input {
+        @apply h-auto min-h-[120px] py-3;
+    }
+
+    select.kolom-input {
+        @apply pr-10;
+    }
+
+    .kolom-galat {
+        @apply border-status-ditolak-teks focus:border-status-ditolak-teks focus:ring-status-ditolak-teks;
+    }
+
+    .kolom-bantuan {
+        @apply text-kecil text-cokelat-600;
+    }
+
+    .kolom-pesan-galat {
+        @apply flex items-center gap-1.5 text-kecil text-status-ditolak-teks;
+    }
+
+    /* ---------- Kartu dan permukaan ---------- */
+    .kartu {
+        @apply rounded-kartu border border-garis bg-putih;
+    }
+
+    /* ---------- Tabel CRUD ---------- */
+    .tabel {
+        @apply w-full border-collapse text-left text-kecil;
+    }
+
+    .tabel th {
+        @apply border-b border-cokelat px-4 py-3 text-label font-semibold text-cokelat-600;
+    }
+
+    .tabel td {
+        @apply border-b border-garis px-4 py-3 align-middle text-cokelat;
+    }
+
+    .tabel tbody tr {
+        @apply transition-colors hover:bg-ivory;
+    }
+}
+
+@layer utilities {
+    /* Elemen yang muncul pelan saat discroll (lihat directive x-muncul) */
+    .belum-muncul {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    .sudah-muncul {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity 0.6s ease-out,
+            transform 0.6s ease-out;
+    }
+
+    /* Area yang bisa digeser dengan mouse (lihat directive x-geser) */
+    .bisa-digeser {
+        cursor: grab;
+        scrollbar-width: none;
+    }
+
+    .bisa-digeser::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sedang-digeser {
+        cursor: grabbing;
+        user-select: none;
+    }
+
+    .sedang-digeser * {
+        pointer-events: none;
+    }
+}
+
+/* Hormati pengaturan "kurangi gerakan" di perangkat pengguna */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .belum-muncul {
+        opacity: 1;
+        transform: none;
+    }
+}
