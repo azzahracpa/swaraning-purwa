@@ -1,0 +1,11 @@
+<svg width="40" height="44" viewBox="0 0 40 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Tanda">
+<path id="Vector" d="M3 43V20C3 15.4913 4.79107 11.1673 7.97918 7.97919C11.1673 4.79107 15.4913 3 20 3C24.5087 3 28.8327 4.79107 32.0208 7.97919C35.2089 11.1673 37 15.4913 37 20V43" stroke-width="2" stroke="#702F36"/>
+<path id="Vector_2" d="M10 43V21C10 18.3478 11.0536 15.8043 12.9289 13.9289C14.8043 12.0536 17.3478 11 20 11C22.6522 11 25.1957 12.0536 27.0711 13.9289C28.9464 15.8043 30 18.3478 30 21V43" stroke-width="1.2" stroke="#C6A15B"/>
+<path id="Vector_3" d="M20 15.5L23 18.5L20 21.5L17 18.5L20 15.5Z" fill="#C6A15B"/>
+<g id="Vector_4">
+<path d="M1 43H39Z" fill="black"/>
+<path d="M1 43H39" stroke-width="2" stroke="#702F36"/>
+</g>
+</g>
+</svg>
