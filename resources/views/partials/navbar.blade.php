@@ -28,15 +28,18 @@
                  aktif: {{ $indexAktif === false ? -1 : $indexAktif }},
                  sorot: {{ $indexAktif === false ? -1 : $indexAktif }},
                  pil: { left: 0, width: 0 },
+                 siap: false,
                  ukur() {
                      const item = this.$refs['menu' + this.sorot];
                      this.pil = item ? { left: item.offsetLeft, width: item.offsetWidth } : { left: 0, width: 0 };
                  },
              }"
-             x-init="$nextTick(() => ukur()); window.addEventListener('resize', () => ukur())"
+             x-init="$nextTick(() => { ukur(); setTimeout(() => siap = true, 50) }); document.fonts?.ready.then(() => ukur()); window.addEventListener('resize', () => ukur())"
              x-on:mouseleave="sorot = aktif; ukur()"
              class="relative flex gap-0.5 rounded-full bg-cokelat p-[5px]">
-            <span class="absolute bottom-[5px] top-[5px] rounded-full bg-ivory transition-all duration-300 ease-out"
+            {{-- Animasi geser baru aktif setelah posisi awal diukur, supaya tidak "tumbuh" saat halaman dibuka --}}
+            <span class="absolute bottom-[5px] top-[5px] rounded-full bg-ivory ease-out"
+                  :class="siap && 'transition-all duration-300'"
                   :style="`left: ${pil.left}px; width: ${pil.width}px; opacity: ${sorot < 0 ? 0 : 1}`"
                   aria-hidden="true"></span>
 

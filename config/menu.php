@@ -24,14 +24,14 @@ return [
         ['label' => 'Kuis', 'route' => 'kuis.index', 'aktif' => 'kuis.*'],
     ],
 
-    // Sidebar area akun user
+    // Sidebar area akun user. "pendek" dipakai untuk chip di layar ponsel.
     'akun' => [
-        ['label' => 'Dashboard', 'route' => 'dashboard', 'aktif' => 'dashboard'],
-        ['label' => 'Reservasi Kunjungan', 'route' => 'reservasi.index', 'aktif' => ['reservasi.index', 'reservasi.create']],
-        ['label' => 'Riwayat Reservasi', 'route' => 'reservasi.riwayat', 'aktif' => ['reservasi.riwayat', 'reservasi.show']],
-        ['label' => 'Koleksi Favorit', 'route' => 'favorit.index', 'aktif' => 'favorit.*'],
-        ['label' => 'Kuis Edukasi', 'route' => 'kuis.index', 'aktif' => 'kuis.*'],
-        ['label' => 'Edit Profil', 'route' => 'profile.edit', 'aktif' => 'profile.*'],
+        ['label' => 'Dashboard', 'pendek' => 'Dashboard', 'route' => 'dashboard', 'aktif' => 'dashboard'],
+        ['label' => 'Reservasi Kunjungan', 'pendek' => 'Reservasi', 'route' => 'reservasi.index', 'aktif' => ['reservasi.index', 'reservasi.create']],
+        ['label' => 'Riwayat Reservasi', 'pendek' => 'Riwayat', 'route' => 'reservasi.riwayat', 'aktif' => ['reservasi.riwayat', 'reservasi.show']],
+        ['label' => 'Koleksi Favorit', 'pendek' => 'Favorit', 'route' => 'favorit.index', 'aktif' => 'favorit.*'],
+        ['label' => 'Kuis Edukasi', 'pendek' => 'Kuis', 'route' => 'kuis.index', 'aktif' => 'kuis.*'],
+        ['label' => 'Edit Profil', 'pendek' => 'Profil', 'route' => 'profile.edit', 'aktif' => 'profile.*'],
     ],
 
     // Sidebar area pengelola (admin), dikelompokkan sesuai desain
