@@ -55,6 +55,16 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_pesan_galat_login_berbahasa_indonesia(): void
+    {
+        $user = User::factory()->create();
+
+        $this->from('/login')->post('/login', [
+            'email' => $user->email,
+            'password' => 'salah',
+        ])->assertSessionHasErrors(['email' => 'Email atau kata sandi tidak cocok.']);
+    }
+
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();

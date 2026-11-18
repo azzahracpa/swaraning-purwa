@@ -4,77 +4,111 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_profile_page_is_displayed(): void
+    public function test_halaman_edit_profil_bisa_dibuka(): void
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->get('/profile');
-
-        $response->assertOk();
+        $this->actingAs($user)->get('/profil')
+            ->assertOk()
+            ->assertSee('Edit')
+            ->assertSee($user->email);
     }
 
-    public function test_profile_information_can_be_updated(): void
+    public function test_tamu_tidak_bisa_membuka_edit_profil(): void
+    {
+        $this->get('/profil')->assertRedirect('/login');
+    }
+
+    public function test_data_profil_bisa_diperbarui(): void
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+        $this->actingAs($user)->patch('/profil', [
+            'name' => 'Nama Baru',
+            'email' => 'baru@contoh.test',
+            'phone' => '0812 3456 7890',
+        ])->assertSessionHasNoErrors()
+            ->assertRedirect('/profil')
+            ->assertSessionHas('success');
 
         $user->refresh();
-
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame('Nama Baru', $user->name);
+        $this->assertSame('baru@contoh.test', $user->email);
+        $this->assertSame('0812 3456 7890', $user->phone);
     }
 
-    public function test_user_can_delete_their_account(): void
+    public function test_kata_sandi_tidak_berubah_jika_dikosongkan(): void
+    {
+        $user = User::factory()->create();
+        $hashLama = $user->password;
+
+        $this->actingAs($user)->patch('/profil', [
+            'name' => $user->name,
+            'email' => $user->email,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame($hashLama, $user->refresh()->password);
+    }
+
+    public function test_kata_sandi_bisa_diganti_dengan_kata_sandi_lama_yang_benar(): void
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->delete('/profile', [
-                'password' => 'password',
-            ]);
+        $this->actingAs($user)->patch('/profil', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'current_password' => 'password',
+            'password' => 'sandibaru123',
+            'password_confirmation' => 'sandibaru123',
+        ])->assertSessionHasNoErrors();
 
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/');
-
-        $this->assertGuest();
-        $this->assertNull($user->fresh());
+        $this->assertTrue(Hash::check('sandibaru123', $user->refresh()->password));
     }
 
-    public function test_correct_password_must_be_provided_to_delete_account(): void
+    public function test_kata_sandi_lama_salah_ditolak(): void
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
-                'password' => 'wrong-password',
-            ]);
+        $this->actingAs($user)->from('/profil')->patch('/profil', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'current_password' => 'salah-sekali',
+            'password' => 'sandibaru123',
+            'password_confirmation' => 'sandibaru123',
+        ])->assertSessionHasErrors('current_password')
+            ->assertRedirect('/profil');
 
-        $response
-            ->assertSessionHasErrorsIn('userDeletion', 'password')
-            ->assertRedirect('/profile');
+        $this->assertTrue(Hash::check('password', $user->refresh()->password));
+    }
 
-        $this->assertNotNull($user->fresh());
+    public function test_email_milik_akun_lain_ditolak(): void
+    {
+        User::factory()->create(['email' => 'dipakai@contoh.test']);
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->patch('/profil', [
+            'name' => $user->name,
+            'email' => 'dipakai@contoh.test',
+        ])->assertSessionHasErrors('email');
+    }
+
+    public function test_role_tidak_bisa_diubah_lewat_edit_profil(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->patch('/profil', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => 'admin',
+        ]);
+
+        $this->assertSame(User::ROLE_USER, $user->refresh()->role);
     }
 }

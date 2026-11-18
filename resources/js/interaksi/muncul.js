@@ -10,6 +10,13 @@ export default function muncul(el, { expression }, { cleanup }) {
         return;
     }
 
+    // Elemen yang sudah terlihat saat halaman dibuka langsung ditampilkan,
+    // supaya bagian atas halaman tidak berkedip atau tampil pudar.
+    const kotak = el.getBoundingClientRect();
+    if (kotak.top < window.innerHeight && kotak.bottom > 0) {
+        return;
+    }
+
     const jeda = parseInt(expression, 10) || 0;
     el.classList.add('belum-muncul');
 

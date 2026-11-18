@@ -3,55 +3,45 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UpdateProfilRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Form edit profil (nama, email, telepon, dan ganti kata sandi).
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('user.profil.edit', [
             'user' => $request->user(),
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Simpan perubahan profil. Kata sandi hanya diganti kalau kolomnya diisi.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(UpdateProfilRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
+        $data = $request->validated();
         $user = $request->user();
 
-        Auth::logout();
+        $user->fill([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+        ]);
 
-        $user->delete();
+        if (! empty($data['password'])) {
+            // Cast "hashed" di model User otomatis meng-hash kata sandi
+            $user->password = $data['password'];
+        }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $user->save();
 
-        return Redirect::to('/');
+        return redirect()->route('profile.edit')
+            ->with('success', 'Profil berhasil diperbarui.');
     }
 }

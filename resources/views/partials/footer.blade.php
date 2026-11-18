@@ -10,7 +10,7 @@
 @endphp
 
 <footer class="mt-auto overflow-hidden bg-cokelat text-di-gelap">
-    <div class="h-2.5 w-full bg-tumpal bg-repeat-x bg-[length:auto_10px]" aria-hidden="true"></div>
+    <div class="h-2.5 w-full bg-ivory bg-tumpal bg-repeat-x bg-[length:auto_10px]" aria-hidden="true"></div>
 
     <div class="wadah flex flex-col gap-10 pb-8 pt-16 lg:gap-14 lg:pt-[88px]">
         <p class="font-display text-[clamp(44px,8.9vw,128px)] font-medium uppercase leading-[0.85] tracking-[-0.01em] text-ivory" x-data x-muncul>
