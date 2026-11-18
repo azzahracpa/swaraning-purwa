@@ -41,8 +41,8 @@ class MiddlewareRoleTest extends TestCase
         $this->post('/register', [
             'name' => 'Penyusup',
             'email' => 'penyusup@contoh.test',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
             'role' => 'admin',
         ]);
 
