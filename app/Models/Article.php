@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -44,5 +45,40 @@ class Article extends Model
     public function getGambarUrlAttribute(): ?string
     {
         return $this->urlGambar($this->image_url);
+    }
+
+    public function sudahTerbit(): bool
+    {
+        return $this->published_at !== null && $this->published_at->lte(now());
+    }
+
+    /**
+     * Isi artikel dipecah per paragraf (dipisah baris kosong).
+     * Baris yang diawali "## " dianggap subjudul.
+     *
+     * @return array<int, array{jenis: string, teks: string}>
+     */
+    public function blokIsi(): array
+    {
+        $blok = preg_split('/\R\s*\R/', trim((string) $this->content)) ?: [];
+
+        return collect($blok)
+            ->map(fn ($teks) => trim($teks))
+            ->filter()
+            ->map(fn ($teks) => str_starts_with($teks, '## ')
+                ? ['jenis' => 'subjudul', 'teks' => trim(substr($teks, 3))]
+                : ['jenis' => 'paragraf', 'teks' => $teks])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Ringkasan dari paragraf pembuka, dipakai di daftar artikel.
+     */
+    public function ringkasan(int $batas = 170): string
+    {
+        $pembuka = collect($this->blokIsi())->firstWhere('jenis', 'paragraf');
+
+        return Str::limit($pembuka['teks'] ?? '', $batas);
     }
 }
