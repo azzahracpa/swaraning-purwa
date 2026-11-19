@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Publik\BerandaController;
+use App\Http\Controllers\Publik\ProfilMuseumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,3 +10,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
+Route::get('/profil-museum', [ProfilMuseumController::class, 'show'])->name('profil-museum');
