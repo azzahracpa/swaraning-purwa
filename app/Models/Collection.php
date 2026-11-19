@@ -71,4 +71,20 @@ class Collection extends Model
                 ->orWhere('description', 'like', "%{$kata}%");
         });
     }
+
+    /**
+     * Filter berdasarkan kategori. Kalau kosong, semua kategori ditampilkan.
+     */
+    public function scopeDalamKategori(Builder $query, ?int $kategoriId): Builder
+    {
+        return $kategoriId ? $query->where('category_id', $kategoriId) : $query;
+    }
+
+    /**
+     * Teks singkat di kartu, misal "Abad ke-13 · Batu andesit".
+     */
+    public function metaSingkat(): string
+    {
+        return collect([$this->historical_period, $this->material])->filter()->implode(' · ');
+    }
 }
