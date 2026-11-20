@@ -87,4 +87,25 @@ class Collection extends Model
     {
         return collect([$this->historical_period, $this->material])->filter()->implode(' · ');
     }
+
+    /**
+     * Pastikan selalu ada tepat satu foto utama selama koleksi punya foto.
+     * Dipanggil setelah foto ditambah atau dihapus.
+     */
+    public function rapikanFotoUtama(): void
+    {
+        $foto = $this->images()->orderByDesc('is_primary')->orderBy('id')->get();
+
+        if ($foto->isEmpty()) {
+            return;
+        }
+
+        $utama = $foto->firstWhere('is_primary', true) ?? $foto->first();
+
+        $this->images()->whereKeyNot($utama->id)->where('is_primary', true)->update(['is_primary' => false]);
+
+        if (! $utama->is_primary) {
+            $utama->update(['is_primary' => true]);
+        }
+    }
 }
