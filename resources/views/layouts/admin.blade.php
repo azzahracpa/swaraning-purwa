@@ -37,6 +37,11 @@
                 <x-flash class="mb-6" />
                 @yield('content')
             </main>
+
+            <footer class="flex flex-col gap-1 border-t border-garis px-5 py-6 text-kecil text-cokelat-600 sm:flex-row sm:justify-between md:px-10 xl:px-12">
+                <p>© {{ now()->year }} Swaraning Purwa · Ruang pengelola</p>
+                <p>Data pada prototipe ini berlabel contoh</p>
+            </footer>
         </div>
     </div>
 
