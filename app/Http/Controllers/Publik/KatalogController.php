@@ -49,9 +49,14 @@ class KatalogController extends Controller
             ->take(3)
             ->get();
 
+        // Status favorit untuk tombol "Simpan ke favorit"
+        $sudahFavorit = auth()->check()
+            && auth()->user()->favorites()->where('collection_id', $collection->id)->exists();
+
         return view('publik.koleksi.show', [
             'koleksi' => $collection,
             'koleksiLain' => $koleksiLain,
+            'sudahFavorit' => $sudahFavorit,
         ]);
     }
 }
