@@ -70,4 +70,30 @@ class VisitSchedule extends Model
 
         return $mulai.'–'.$selesai;
     }
+
+    /**
+     * Tambahkan kolom bantu jumlah_disetujui dan jumlah_menunggu (total pengunjung)
+     * dalam satu query, supaya daftar jadwal tidak menjalankan query per slot.
+     */
+    public function scopeDenganJumlahPengunjung(Builder $query): Builder
+    {
+        return $query
+            ->withSum(['reservations as jumlah_disetujui' => fn ($q) => $q->where('status', Reservation::STATUS_APPROVED)], 'total_visitors')
+            ->withSum(['reservations as jumlah_menunggu' => fn ($q) => $q->where('status', Reservation::STATUS_PENDING)], 'total_visitors');
+    }
+
+    /**
+     * Status slot untuk tampilan admin: dibuka, penuh, atau ditutup.
+     * Memakai kolom bantu dari scope denganJumlahPengunjung() kalau tersedia.
+     */
+    public function statusSlot(): string
+    {
+        if (! $this->is_available) {
+            return 'ditutup';
+        }
+
+        $disetujui = $this->jumlah_disetujui ?? $this->jumlahDisetujui();
+
+        return $disetujui >= $this->capacity ? 'penuh' : 'dibuka';
+    }
 }
