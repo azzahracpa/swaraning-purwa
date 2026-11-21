@@ -47,6 +47,31 @@ class Article extends Model
         return $this->urlGambar($this->image_url);
     }
 
+    /**
+     * Artikel terjadwal: tanggal terbit sudah diisi tetapi masih di masa depan.
+     */
+    public function scopeTerjadwal(Builder $query): Builder
+    {
+        return $query->where('published_at', '>', now());
+    }
+
+    public function scopeDraf(Builder $query): Builder
+    {
+        return $query->whereNull('published_at');
+    }
+
+    /**
+     * Status untuk tampilan admin: terbit, terjadwal, atau draf.
+     */
+    public function status(): string
+    {
+        if ($this->published_at === null) {
+            return 'draf';
+        }
+
+        return $this->published_at->isFuture() ? 'terjadwal' : 'terbit';
+    }
+
     public function sudahTerbit(): bool
     {
         return $this->published_at !== null && $this->published_at->lte(now());
