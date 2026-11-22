@@ -23,7 +23,7 @@ class JadwalController extends Controller
         $filter = $request->query('status');
 
         $semuaSlot = VisitSchedule::denganJumlahPengunjung()
-            ->whereBetween('visit_date', [$awalPekan->toDateString(), $akhirPekan->toDateString()])
+            ->whereBetween('visit_date', [$awalPekan->toDateString(), $akhirPekan->toDateTimeString()])
             ->orderBy('visit_date')
             ->orderBy('start_time')
             ->get();
