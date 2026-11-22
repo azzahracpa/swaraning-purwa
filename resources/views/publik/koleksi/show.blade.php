@@ -121,22 +121,30 @@
                 <h1 class="teks-display-l uppercase">{{ $koleksi->name }}</h1>
                 <p class="text-isi text-cokelat-600">{{ \Illuminate\Support\Str::limit($paragraf->first(), 160) }}</p>
 
-                {{-- Tombol favorit. Penyimpanan favorit dikerjakan di modul Favorit. --}}
+                {{-- Tombol favorit: simpan / hapus dari favorit (hanya untuk pengguna, bukan admin) --}}
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
                     @auth
-                        @if (Route::has('favorit.store'))
-                            <form method="POST" action="{{ route('favorit.store') }}">
-                                @csrf
-                                <input type="hidden" name="collection_id" value="{{ $koleksi->id }}">
-                                <button type="submit" class="tombol tombol-garis">
-                                    <x-ikon nama="hati" /> Simpan ke favorit
-                                </button>
-                            </form>
-                        @else
-                            <button type="button" class="tombol tombol-garis" disabled>
-                                <x-ikon nama="hati" /> Simpan ke favorit
-                            </button>
-                            <p class="text-kecil text-cokelat-600">Fitur favorit segera tersedia.</p>
+                        @if (! auth()->user()->isAdmin())
+                            @if ($sudahFavorit)
+                                <form method="POST" action="{{ route('favorit.destroy', $koleksi) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="tombol tombol-garis group border-maroon text-maroon hover:bg-maroon hover:text-putih" aria-pressed="true">
+                                        <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 17.2 3.4 10.6a3.9 3.9 0 0 1 5.5-5.5L10 6.2l1.1-1.1a3.9 3.9 0 0 1 5.5 5.5Z"/></svg>
+                                        <span class="group-hover:hidden">Tersimpan di favorit</span>
+                                        <span class="hidden group-hover:inline">Hapus dari favorit</span>
+                                    </button>
+                                </form>
+                                <a href="{{ route('favorit.index') }}" class="tautan">Lihat koleksi favorit</a>
+                            @else
+                                <form method="POST" action="{{ route('favorit.store') }}" x-data="{ kirim: false }" x-on:submit="kirim = true">
+                                    @csrf
+                                    <input type="hidden" name="collection_id" value="{{ $koleksi->id }}">
+                                    <button type="submit" class="tombol tombol-garis" :class="kirim && 'scale-95'">
+                                        <x-ikon nama="hati" /> Simpan ke favorit
+                                    </button>
+                                </form>
+                            @endif
                         @endif
                     @else
                         <a href="{{ route('login') }}" class="tombol tombol-garis">
