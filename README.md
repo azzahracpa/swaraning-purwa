@@ -122,8 +122,8 @@ link otomatis mengarah ke `#`.
 | Beranda, profil (Amel) | `beranda`, `profil-museum`, `artikel.index`, `artikel.show`, `admin.artikel.*`, `admin.profil-museum.edit`, `admin.profil-museum.update` |
 | Katalog, favorit (Devi) | `koleksi.index` (parameter pencarian `?cari=`, filter `?kategori=`), `koleksi.show`, `favorit.index`, `favorit.store`, `favorit.destroy`, `admin.kategori.*`, `admin.koleksi.*` |
 | Akun (Zahra) | `login`, `register`, `logout`, `dashboard`, `profile.edit`, `profile.update` |
-| Reservasi (Nofita) | `reservasi.index`, `reservasi.create`, `reservasi.store`, `reservasi.riwayat`, `reservasi.show`, `reservasi.batal`, `admin.jadwal.*`, `admin.reservasi.*` |
-| Kuis, dashboard admin (Izza) | `kuis.index`, `kuis.show`, `kuis.kirim`, `kuis.hasil`, `admin.kuis.*`, `admin.dashboard` |
+| Reservasi (Nofita) | `reservasi.index`, `reservasi.store`, `reservasi.riwayat`, `reservasi.show`, `reservasi.batal`, `admin.jadwal.*`, `admin.reservasi.*` |
+| Kuis, dashboard admin (Izza) | `kuis.index`, `kuis.mulai`, `kuis.kerjakan`, `kuis.kirim`, `kuis.hasil`, `admin.kuis.*`, `admin.dashboard` |
 
 ## Basis data
 
