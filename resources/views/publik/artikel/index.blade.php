@@ -64,7 +64,7 @@
                 @endif
 
                 <div class="mt-8">
-                    {{ $artikel->links() }}
+                    {{ $artikel->links('components.paginasi-sederhana') }}
                 </div>
             </div>
         </section>
