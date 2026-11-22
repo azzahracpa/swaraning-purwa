@@ -15,7 +15,10 @@ class ProfilMuseumController extends Controller
     {
         $profil = MuseumProfile::utama();
 
-        abort_if($profil === null, 404, 'Profil museum belum diisi pengelola.');
+        // Kalau pengelola belum mengisi profil, tampilkan keadaan kosong (bukan galat)
+        if ($profil === null) {
+            return view('publik.profil-museum-kosong');
+        }
 
         return view('publik.profil-museum', compact('profil'));
     }

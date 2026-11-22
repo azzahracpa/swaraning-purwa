@@ -24,8 +24,17 @@ class ProfilMuseumTest extends TestCase
             ->assertSee($profil->opening_hours);
     }
 
-    public function test_profil_museum_404_jika_belum_diisi(): void
+    public function test_profil_museum_kosong_menampilkan_pesan_ramah(): void
     {
-        $this->get(route('profil-museum'))->assertNotFound();
+        $this->get(route('profil-museum'))
+            ->assertOk()
+            ->assertSee('Profil museum belum diisi');
+    }
+
+    public function test_halaman_tidak_ada_memakai_tampilan_404_situs(): void
+    {
+        $this->get('/halaman-yang-tidak-ada')
+            ->assertNotFound()
+            ->assertSee('belum ditemukan');
     }
 }
