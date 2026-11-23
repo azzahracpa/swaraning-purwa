@@ -65,10 +65,13 @@
             <div class="flex flex-col gap-3 xl:sticky xl:top-24 xl:self-start">
                 <div class="flex items-center justify-between">
                     <p class="text-label font-semibold">Pratinjau di situs</p>
-                    <x-penanda-contoh teks="data contoh" />
                 </div>
                 <div class="overflow-hidden rounded-kartu bg-cokelat text-di-gelap">
-                    <x-tempat-foto class="h-36 rounded-none" keterangan="Foto gedung museum" />
+                    @if ($profil->gambar_url)
+                        <img src="{{ $profil->gambar_url }}" alt="Foto gedung museum" class="h-36 w-full object-cover">
+                    @else
+                        <x-tempat-foto class="h-36 rounded-none" keterangan="Foto gedung museum" />
+                    @endif
                     <div class="flex flex-col gap-3 p-5">
                         <p class="text-label-kecil font-semibold uppercase tracking-[0.1em] text-emas">Kunjungi</p>
                         <p class="teks-h3 text-ivory" x-text="nama || 'Nama museum'"></p>

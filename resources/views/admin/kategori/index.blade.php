@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div>
             <p class="mb-4 flex items-center gap-3 text-label font-semibold">
-                {{ $kategori->count() }} kategori <x-penanda-contoh teks="data contoh" />
+                {{ $kategori->count() }} kategori
             </p>
 
             @if ($kategori->isEmpty())

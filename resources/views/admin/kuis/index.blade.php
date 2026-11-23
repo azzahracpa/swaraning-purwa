@@ -9,7 +9,7 @@
         <a href="{{ route('admin.kuis.create') }}" class="tombol tombol-utama">Buat kuis</a>
     </x-admin.kepala>
 
-    <p class="mb-4 flex items-center gap-3 text-label font-semibold">{{ $kuis->count() }} kuis <x-penanda-contoh teks="data contoh" /></p>
+    <p class="mb-4 flex items-center gap-3 text-label font-semibold">{{ $kuis->count() }} kuis</p>
 
     @if ($kuis->isEmpty())
         <x-keadaan-kosong judul="Belum ada kuis" ikon="bantuan">

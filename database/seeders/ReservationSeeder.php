@@ -24,12 +24,12 @@ class ReservationSeeder extends Seeder
             ->orderBy('visit_date')->orderBy('start_time')->get();
 
         $data = [
-            [$pengguna, $jadwal[0], 12, Reservation::STATUS_APPROVED, 'Rombongan kelas (contoh)'],
+            [$pengguna, $jadwal[0], 12, Reservation::STATUS_APPROVED, 'Rombongan kelas'],
             [$pengguna, $jadwal[2], 5, Reservation::STATUS_PENDING, null],
             [$pengguna, $jadwal[4], 8, Reservation::STATUS_REJECTED, null],
             [$pengguna, $jadwal[5], 3, Reservation::STATUS_CANCELLED, null],
             [$pengguna2, $jadwal[0], 10, Reservation::STATUS_PENDING, null],
-            [$pengguna2, $jadwal[1], 25, Reservation::STATUS_PENDING, 'Kunjungan komunitas (contoh)'],
+            [$pengguna2, $jadwal[1], 25, Reservation::STATUS_PENDING, 'Kunjungan komunitas'],
         ];
 
         foreach ($data as [$user, $schedule, $jumlah, $status, $catatan]) {

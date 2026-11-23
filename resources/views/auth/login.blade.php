@@ -12,7 +12,7 @@
           x-data="{ mengirim: false }" x-on:submit="mengirim = true">
         @csrf
 
-        <x-kolom-isian name="email" label="Email" type="email" placeholder="email@contoh.com"
+        <x-kolom-isian name="email" label="Email" type="email" placeholder="nama@email.com"
                        wajib autofocus autocomplete="username" />
         <x-kolom-sandi name="password" label="Kata sandi" placeholder="Masukkan kata sandi"
                        wajib autocomplete="current-password" />

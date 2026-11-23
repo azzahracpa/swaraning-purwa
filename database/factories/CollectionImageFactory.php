@@ -15,7 +15,7 @@ class CollectionImageFactory extends Factory
     {
         return [
             'collection_id' => Collection::factory(),
-            'image_url' => 'images/contoh/koleksi-arca-ganesha.svg',
+            'image_url' => 'images/museum/arca-ganesha.jpg',
             'caption' => fake()->sentence(3),
             'is_primary' => false,
         ];

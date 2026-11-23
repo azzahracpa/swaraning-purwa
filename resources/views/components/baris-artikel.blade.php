@@ -10,7 +10,6 @@
         <span class="teks-h3 transition-colors group-hover:text-maroon">{{ $artikel->title }}</span>
         <span class="flex flex-wrap items-center gap-2 text-kecil text-cokelat-600">
             {{ $artikel->published_at?->translatedFormat('j F Y') }}
-            <x-penanda-contoh />
         </span>
     </span>
     <span class="tombol-ikon shrink-0 transition-transform group-hover:translate-x-1 group-hover:border-cokelat group-hover:bg-putih" aria-hidden="true">

@@ -10,7 +10,6 @@
 
             <p class="mt-10 flex flex-wrap items-center gap-2 text-kecil text-cokelat-600">
                 {{ $article->published_at->translatedFormat('j F Y') }} · Penulis: {{ $article->author->name }}
-                <x-penanda-contoh />
             </p>
             <h1 class="teks-display-l mt-5 max-w-[960px] uppercase" x-data x-muncul>{{ $article->title }}</h1>
             <p class="teks-lead mt-5 max-w-[760px] text-cokelat-600">{{ $article->ringkasan(220) }}</p>

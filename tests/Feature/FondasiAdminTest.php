@@ -20,7 +20,7 @@ class FondasiAdminTest extends TestCase
         $this->actingAs($admin)->get('/admin')
             ->assertOk()
             ->assertSee('Ruang pengelola')
-            ->assertSee('Data pada prototipe ini berlabel contoh');
+            ->assertSee('Museum Mpu Purwa, Kota Malang');
     }
 
     public function test_helper_gambar_menyimpan_ke_disk_default(): void
@@ -38,8 +38,8 @@ class FondasiAdminTest extends TestCase
 
     public function test_helper_gambar_tidak_menghapus_gambar_contoh(): void
     {
-        Gambar::hapus('images/contoh/koleksi-arca-ganesha.svg');
+        Gambar::hapus('images/museum/arca-ganesha.jpg');
 
-        $this->assertFileExists(public_path('images/contoh/koleksi-arca-ganesha.svg'));
+        $this->assertFileExists(public_path('images/museum/arca-ganesha.jpg'));
     }
 }

@@ -29,7 +29,7 @@
             <div class="kartu flex flex-col gap-6 p-5 sm:p-8">
                 <div class="flex items-center justify-between gap-3">
                     <p class="flex items-center gap-3 text-label font-semibold">
-                        Soal <span x-text="ke + 1"></span> dari {{ count($soal) }} <x-penanda-contoh />
+                        Soal <span x-text="ke + 1"></span> dari {{ count($soal) }}
                     </p>
                     <p class="flex items-center gap-1.5 text-kecil text-cokelat-600" x-show="jawaban[soalAktif.id]" x-transition>
                         <x-ikon nama="centang" class="size-4" /> Jawaban tersimpan

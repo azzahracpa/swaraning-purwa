@@ -29,7 +29,6 @@
                 <p class="teks-h3">{{ $awalPekan->translatedFormat('j') }}–{{ $akhirPekan->translatedFormat('j F Y') }}</p>
             </div>
             <a href="{{ $urlPekan($awalPekan->copy()->addWeek()) }}" class="tombol-ikon" aria-label="Pekan berikutnya"><x-ikon nama="panah-kanan" /></a>
-            <x-penanda-contoh teks="data contoh" />
         </div>
         <div class="flex flex-wrap gap-2">
             @foreach (['semua' => 'Semua', 'dibuka' => 'Dibuka', 'penuh' => 'Penuh', 'ditutup' => 'Ditutup'] as $kunci => $label)

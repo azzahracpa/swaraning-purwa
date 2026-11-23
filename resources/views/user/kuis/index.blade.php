@@ -27,7 +27,7 @@
                         <article class="flex flex-col gap-4 border-b border-garis py-6 sm:flex-row sm:items-center sm:gap-6" x-data x-muncul="{{ $loop->index * 80 }}">
                             <span class="font-display text-angka text-emas-700">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                             <div class="flex min-w-0 flex-1 flex-col gap-2">
-                                <h2 class="flex flex-wrap items-center gap-3 teks-h3">{{ $item->title }} <x-penanda-contoh /></h2>
+                                <h2 class="flex flex-wrap items-center gap-3 teks-h3">{{ $item->title }}</h2>
                                 @if ($item->description)
                                     <p class="text-kecil text-cokelat-600">{{ $item->description }}</p>
                                 @endif
@@ -52,7 +52,6 @@
         <aside class="flex flex-col gap-4 self-start rounded-kartu bg-lembut p-5">
             <div class="flex items-center justify-between">
                 <h2 class="teks-h3">Riwayat pengerjaan</h2>
-                <x-penanda-contoh />
             </div>
             @forelse ($riwayat as $item)
                 <a href="{{ route('kuis.hasil', $item) }}" class="group flex items-center justify-between gap-3 border-t border-garis-kuat pt-3">

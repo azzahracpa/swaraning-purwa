@@ -19,19 +19,21 @@
                 <span class="aksen-miring block">{{ \Illuminate\Support\Str::afterLast($profil->name, ' ') }}</span>
             </h1>
             <div class="flex flex-col items-start gap-3 lg:pb-4" x-data x-muncul="120">
-                <x-penanda-contoh teks="deskripsi menunggu verifikasi" />
                 <p class="text-isi text-cokelat-600">{{ $profil->description }}</p>
             </div>
         </div>
 
         <div class="mt-10 h-[240px] overflow-hidden rounded-banner bg-cokelat sm:h-[360px] lg:h-[520px]" x-data x-muncul="200">
             @if ($profil->gambar_url)
-                <img src="{{ $profil->gambar_url }}" alt="Foto contoh tampak depan museum"
+                <img src="{{ $profil->gambar_url }}" alt="Tampak depan Museum Mpu Purwa"
                      class="size-full object-cover transition duration-700 hover:scale-[1.02]">
             @else
                 <x-tempat-foto class="size-full rounded-none" keterangan="Foto tampak depan museum" />
             @endif
         </div>
+        @if ($profil->image_url === 'images/museum/museum-tampak-depan.jpg')
+            <p class="mt-3 text-kecil text-cokelat-600">Tampak depan Museum Mpu Purwa. Foto: Muhamad Abdu (CC BY-SA 4.0), Wikimedia Commons.</p>
+        @endif
     </section>
 
     {{-- 01 Sejarah --}}
@@ -45,13 +47,16 @@
             @empty
                 <p class="text-isi text-cokelat-600">Sejarah museum belum diisi pengelola.</p>
             @endforelse
-            <p class="flex flex-wrap items-center gap-2 text-kecil text-cokelat-600">
-                <x-penanda-contoh teks="teks contoh" />
-                Sumber: menunggu dokumen resmi museum
+            <p class="text-kecil text-cokelat-600">
+                Sumber: Kitab Pararaton dan keterangan koleksi museum di Wikimedia Commons.
             </p>
         </div>
 
-        <x-tempat-foto nada="lembut" class="h-[226px] w-full max-w-[220px] rounded-relung" keterangan="Foto arsip" x-data x-miring="6" />
+        <figure class="flex w-full max-w-[220px] flex-col gap-3" x-data x-miring="6">
+            <img src="{{ asset('images/museum/halaman-museum.jpg') }}" alt="Arca duduk di taman halaman Museum Mpu Purwa"
+                 class="h-[226px] w-full rounded-relung object-cover" loading="lazy">
+            <figcaption class="text-kecil text-cokelat-600">Halaman Museum Mpu Purwa. Foto: Muhamad Abdu (CC BY-SA 4.0), Wikimedia Commons.</figcaption>
+        </figure>
     </section>
 
     {{-- 02 Informasi kunjungan --}}
@@ -62,21 +67,21 @@
         </div>
 
         @php
-            $info = [
-                ['jam', 'Jam buka', $profil->opening_hours ?? 'Jadwal buka per hari, diisi setelah verifikasi.'],
-                ['lokasi', 'Alamat', $profil->address ?? 'Kota Malang. Alamat lengkap menyusul.'],
-                ['telepon', 'Telepon', $profil->phone ?? 'Nomor resmi museum.'],
-                ['surat', 'Email', $profil->email ?? 'Alamat email resmi museum.'],
-            ];
+            // Info yang belum diisi pengelola tidak ditampilkan
+            $info = array_values(array_filter([
+                ['jam', 'Jam buka', $profil->opening_hours],
+                ['lokasi', 'Alamat', $profil->address],
+                ['telepon', 'Telepon', $profil->phone],
+                ['surat', 'Email', $profil->email],
+            ], fn ($baris) => filled($baris[2])));
         @endphp
-        <div class="kartu mt-8 grid overflow-hidden sm:grid-cols-2 lg:grid-cols-4">
+        <div class="kartu mt-8 grid overflow-hidden sm:grid-cols-2 {{ count($info) === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3' }}">
             @foreach ($info as $i => [$ikon, $judul, $isi])
                 <div class="flex flex-col gap-3 border-garis p-6 transition-colors hover:bg-ivory/60 max-lg:border-b sm:odd:border-r lg:border-r lg:last:border-r-0"
                      x-data x-muncul="{{ $i * 90 }}">
                     <x-ikon :nama="$ikon" class="text-maroon" />
                     <h3 class="teks-h3">{{ $judul }}</h3>
                     <p class="text-kecil text-cokelat-600">{{ $isi }}</p>
-                    <x-penanda-contoh class="self-start" />
                 </div>
             @endforeach
         </div>

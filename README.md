@@ -188,7 +188,7 @@ password (`password_reset_tokens`). Tabel antrean (`jobs`) juga tidak dibuat kar
 | Sesi, cache, antrean | `SESSION_DRIVER=database`, `CACHE_STORE=database`, `QUEUE_CONNECTION=sync` |
 | Log | `LOG_CHANNEL=stderr` (dibaca di menu Logs Vercel) |
 | Upload gambar | `Storage` facade dengan disk dari `FILESYSTEM_DISK`. Lokal `public`, produksi `s3` (S3 kompatibel) |
-| Gambar contoh seeder | aset statis di `public/images/contoh/`, ikut di repo |
+| Foto koleksi seeder | aset statis di `public/images/museum/`, ikut di repo (sumber dan lisensi di bagian Sumber foto) |
 | Proxy dan HTTPS | `trustProxies(at: '*')` di `bootstrap/app.php`; kalau `APP_URL` diawali `https://`, semua URL dipaksa https |
 | Aset Vite | dibangun saat build (`npm run build`), folder `public/build` tidak di-commit |
 | Rahasia | tidak ada `.env` di repo; semua variabel ada di `.env.example` beserta penjelasannya |
@@ -286,3 +286,50 @@ tiap berkas juga menguji kasus tepi yang berkaitan.
 Catatan T10: `UploadedFile::fake()` melaporkan tipe MIME dari **nama** berkas, sehingga berkas teks
 bernama `.jpg` bisa lolos di tes padahal di aplikasi sungguhan ditolak (Laravel membaca isi berkas).
 Karena itu tes T10 membuat berkas teks sungguhan untuk kasus tersebut.
+
+## Sumber foto
+
+Semua foto di `public/images/museum/` berasal dari Wikimedia Commons (kategori Museum Mpu Purwa) dan dipakai sesuai lisensinya. Foto sudah diperkecil. Nama fotografer juga tampil di keterangan foto pada halaman detail koleksi.
+
+| Berkas | Fotografer | Lisensi | Sumber |
+|---|---|---|---|
+| `arca-ganesha.jpg` | Rhani Lilianti Kata | CC BY 4.0 | [File:Arca Ganesya.jpg](https://commons.wikimedia.org/wiki/File%3AArca_Ganesya.jpg) |
+| `arca-ganesha-bunulrejo.jpg` | Xenovilius | CC BY 4.0 | [File:Ganesya Bunulrejo.jpg](https://commons.wikimedia.org/wiki/File%3AGanesya_Bunulrejo.jpg) |
+| `arca-ganesha-berlapik-bulat.jpg` | Xenovilius | CC BY 4.0 | [File:Ganesya.jpg](https://commons.wikimedia.org/wiki/File%3AGanesya.jpg) |
+| `arca-ganesha-tikus.jpg` | Farizor | CC BY 4.0 | [File:Arca Ganesya Tikus.jpg](https://commons.wikimedia.org/wiki/File%3AArca_Ganesya_Tikus.jpg) |
+| `arca-dwarapala.jpg` | Ahmadrizky0102 | CC BY 4.0 | [File:Dwarapala.jpg](https://commons.wikimedia.org/wiki/File%3ADwarapala.jpg) |
+| `arca-lembu-nandi.jpg` | Rhani Lilianti Kata | CC BY 4.0 | [File:Lembu Nandi.jpg](https://commons.wikimedia.org/wiki/File%3ALembu_Nandi.jpg) |
+| `arca-nandiswara.jpg` | Komengskuy | CC BY 4.0 | [File:Koleksi Nandiswara.jpg](https://commons.wikimedia.org/wiki/File%3AKoleksi_Nandiswara.jpg) |
+| `arca-mahakala.jpg` | Syaasantoso | CC BY 4.0 | [File:Mahakala Museum Mpu Purwa.jpg](https://commons.wikimedia.org/wiki/File%3AMahakala_Museum_Mpu_Purwa.jpg) |
+| `arca-durga-mahisasuramardini.jpg` | Xenovilius | CC BY 4.0 | [File:Durgamahisa Suramardini.jpg](https://commons.wikimedia.org/wiki/File%3ADurgamahisa_Suramardini.jpg) |
+| `arca-wisnu.jpg` | Amidaxaviera | CC BY 4.0 | [File:Wisnu.jpg](https://commons.wikimedia.org/wiki/File%3AWisnu.jpg) |
+| `arca-siwa-mahaguru.jpg` | Amidaxaviera | CC BY 4.0 | [File:Siwa Mahaguru.jpg](https://commons.wikimedia.org/wiki/File%3ASiwa_Mahaguru.jpg) |
+| `arca-trimurti.jpg` | Rhani Lilianti Kata | CC BY 4.0 | [File:Trimurti atau Trisirah.jpg](https://commons.wikimedia.org/wiki/File%3ATrimurti_atau_Trisirah.jpg) |
+| `arca-awalokiteswara.jpg` | Annidafattiya | CC0 | [File:Bodhisatwa (Awalokiteswara).jpg](https://commons.wikimedia.org/wiki/File%3ABodhisatwa_%28Awalokiteswara%29.jpg) |
+| `arca-manjusri.jpg` | Syaasantoso | CC BY 4.0 | [File:Bodhisatwa Manjuseri.jpg](https://commons.wikimedia.org/wiki/File%3ABodhisatwa_Manjuseri.jpg) |
+| `arca-sri-laksmi.jpg` | Fishynila | CC BY 4.0 | [File:Dewi Kesuburan (Sri Laksmi).jpg](https://commons.wikimedia.org/wiki/File%3ADewi_Kesuburan_%28Sri_Laksmi%29.jpg) |
+| `arca-dewi.jpg` | Amidaxaviera | CC BY 4.0 | [File:Arca Dewi.jpg](https://commons.wikimedia.org/wiki/File%3AArca_Dewi.jpg) |
+| `arca-perwujudan-dewi.jpg` | Annidafattiya | CC BY 4.0 | [File:01 Arca Perwujudan Dewi Mpu Purwa Museum.jpg](https://commons.wikimedia.org/wiki/File%3A01_Arca_Perwujudan_Dewi_Mpu_Purwa_Museum.jpg) |
+| `arca-dewi-ibu.jpg` | Syaasantoso | CC BY 4.0 | [File:Tokoh Dewi Ibu.jpg](https://commons.wikimedia.org/wiki/File%3ATokoh_Dewi_Ibu.jpg) |
+| `arca-tokoh-pertapa.jpg` | Annidafattiya | CC BY 4.0 | [File:Arca Tokoh Pertapa.jpg](https://commons.wikimedia.org/wiki/File%3AArca_Tokoh_Pertapa.jpg) |
+| `arca-sangkhara.jpg` | Annidafattiya | CC BY 4.0 | [File:Arca Sangkhara.jpg](https://commons.wikimedia.org/wiki/File%3AArca_Sangkhara.jpg) |
+| `arca-tokoh-dewa-berdiri.jpg` | Ahmadrizky0102 | CC BY 4.0 | [File:Tokoh Dewa.jpg](https://commons.wikimedia.org/wiki/File%3ATokoh_Dewa.jpg) |
+| `arca-tokoh-dewa-bermahkota.jpg` | Komengskuy | CC BY 4.0 | [File:Koleksi Tokoh Dewa.jpg](https://commons.wikimedia.org/wiki/File%3AKoleksi_Tokoh_Dewa.jpg) |
+| `arca-singa-stamba.jpg` | Syaasantoso | CC BY 4.0 | [File:Singa Stamba.jpg](https://commons.wikimedia.org/wiki/File%3ASinga_Stamba.jpg) |
+| `fragmen-garuda-wisnu.jpg` | Amidaxaviera | CC BY 4.0 | [File:Fragmen Garuda Wisnu.jpg](https://commons.wikimedia.org/wiki/File%3AFragmen_Garuda_Wisnu.jpg) |
+| `prasasti-dinoyo-2.jpg` | Annidafattiya | CC0 | [File:Prasasti Dinoyo 2.jpg](https://commons.wikimedia.org/wiki/File%3APrasasti_Dinoyo_2.jpg) |
+| `prasasti-muncang.jpg` | Xenovilius | CC BY 4.0 | [File:Prasasti Muncang.png](https://commons.wikimedia.org/wiki/File%3APrasasti_Muncang.png) |
+| `yoni.jpg` | Rhani Lilianti Kata | CC BY 4.0 | [File:Yoni di Museum Mpu Purwa.jpg](https://commons.wikimedia.org/wiki/File%3AYoni_di_Museum_Mpu_Purwa.jpg) |
+| `fragmen-kemuncak-candi.jpg` | Komengskuy | CC BY 4.0 | [File:Fragmen Kemuncak Candi.jpg](https://commons.wikimedia.org/wiki/File%3AFragmen_Kemuncak_Candi.jpg) |
+| `fragmen-pipi-tangga.jpg` | Komengskuy | CC BY 4.0 | [File:Fragmen Pipi Tangga.jpg](https://commons.wikimedia.org/wiki/File%3AFragmen_Pipi_Tangga.jpg) |
+| `ornamen-kuncup-teratai.jpg` | Rafliyan18 | CC BY 4.0 | [File:Kuncup teratai.jpg](https://commons.wikimedia.org/wiki/File%3AKuncup_teratai.jpg) |
+| `bata-merah.jpg` | Rafliyan18 | CC BY 4.0 | [File:Bata Merah.jpg](https://commons.wikimedia.org/wiki/File%3ABata_Merah.jpg) |
+| `batu-pelor.jpg` | Ahmadrizky0102 | CC BY 4.0 | [File:Batu Pelor.jpg](https://commons.wikimedia.org/wiki/File%3ABatu_Pelor.jpg) |
+| `batu-pipisan.jpg` | Ahmadrizky0102 | CC BY 4.0 | [File:Batu Pipisan.jpg](https://commons.wikimedia.org/wiki/File%3ABatu_Pipisan.jpg) |
+| `kapak-genggam.jpg` | Rafliyan18 | CC0 | [File:Kapak Genggam di Museum Mpu Purwa.jpg](https://commons.wikimedia.org/wiki/File%3AKapak_Genggam_di_Museum_Mpu_Purwa.jpg) |
+| `diorama-singhasari-majapahit.jpg` | Farizor | CC BY 4.0 | [File:Diorama Lantai 2 Museum Mpu Purwa.jpg](https://commons.wikimedia.org/wiki/File%3ADiorama_Lantai_2_Museum_Mpu_Purwa.jpg) |
+| `diorama-pamalayu.jpg` | Rafliyan18 | CC BY 4.0 | [File:Diorama Pamalayu.jpg](https://commons.wikimedia.org/wiki/File%3ADiorama_Pamalayu.jpg) |
+| `diorama-candi-jago.jpg` | Rafliyan18 | CC BY 4.0 | [File:Diorama Pembangunan Candi Jago.jpg](https://commons.wikimedia.org/wiki/File%3ADiorama_Pembangunan_Candi_Jago.jpg) |
+| `museum-tampak-depan.jpg` | Muhamad Abdu | CC BY-SA 4.0 | [File:Museum Mpu Purwa.jpg](https://commons.wikimedia.org/wiki/File%3AMuseum_Mpu_Purwa.jpg) |
+| `halaman-museum.jpg` | Muhamad Abdu | CC BY-SA 4.0 | [File:Museum Mpu Purwa 1.jpg](https://commons.wikimedia.org/wiki/File%3AMuseum_Mpu_Purwa_1.jpg) |
+| `ruang-koleksi-lantai-dua.jpg` | Farizor | CC BY 4.0 | [File:Koleksi Museum Lantai Dua.jpg](https://commons.wikimedia.org/wiki/File%3AKoleksi_Museum_Lantai_Dua.jpg) |

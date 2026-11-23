@@ -22,7 +22,6 @@
     <div class="flex flex-col gap-2.5 px-1">
         <div class="flex items-center justify-between gap-2">
             <x-label-kategori>{{ $koleksi->category->name }}</x-label-kategori>
-            <x-penanda-contoh teks="data contoh" />
         </div>
         <h3 class="teks-h3 transition-colors group-hover:text-maroon">{{ $koleksi->name }}</h3>
         <p class="text-kecil text-cokelat-600">{{ $koleksi->metaSingkat() }}</p>
