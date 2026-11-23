@@ -71,4 +71,29 @@ class Reservation extends Model
 
         return $kode;
     }
+
+    /**
+     * Hitung kapasitas untuk keputusan admin: kapasitas slot, kursi yang sudah
+     * disetujui (di luar reservasi ini), dan apakah reservasi ini masih muat.
+     *
+     * @return array{kapasitas: int, disetujui: int, pengajuan: int, sisa: int, cukup: bool, kekurangan: int}
+     */
+    public function cekKapasitas(): array
+    {
+        $slot = $this->schedule;
+        $disetujui = (int) $slot->reservations()
+            ->where('status', self::STATUS_APPROVED)
+            ->whereKeyNot($this->id)
+            ->sum('total_visitors');
+        $sisa = max(0, $slot->capacity - $disetujui);
+
+        return [
+            'kapasitas' => $slot->capacity,
+            'disetujui' => $disetujui,
+            'pengajuan' => $this->total_visitors,
+            'sisa' => $sisa,
+            'cukup' => $this->total_visitors <= $sisa,
+            'kekurangan' => max(0, $this->total_visitors - $sisa),
+        ];
+    }
 }
