@@ -228,4 +228,32 @@ untuk judul besar), `@extends('layouts.admin')` (punya `@section('halaman')` unt
 php artisan test
 ```
 
-Skenario uji T01 sampai T10 dari dokumen perancangan ditulis sebagai feature test pada Progress 6.
+Tes memakai SQLite di memori (lihat `phpunit.xml`), jadi tidak menyentuh database MySQL lokal.
+Menjalankan satu berkas atau satu skenario saja:
+
+```bash
+php artisan test tests/Feature/RencanaPengujian
+php artisan test --filter=T06
+```
+
+### Rencana pengujian (dokumen perancangan bab 6.5)
+
+Setiap skenario punya satu berkas di `tests/Feature/RencanaPengujian/`. Selain kasus utama,
+tiap berkas juga menguji kasus tepi yang berkaitan.
+
+| ID | Skenario | Hasil yang diharapkan | Berkas tes | Penanggung jawab |
+| --- | --- | --- | --- | --- |
+| T01 | Registrasi dengan email sama | Ditolak dengan pesan validasi | `T01RegistrasiEmailSamaTest` | Zahra |
+| T02 | User membuka URL admin | Akses ditolak (403, tamu ke login) | `T02UserMembukaUrlAdminTest` | Zahra |
+| T03 | Cari kategori Arca | Hanya koleksi terkait tampil | `T03CariKategoriArcaTest` | Devi |
+| T04 | Simpan favorit dua kali | Tidak ada duplikasi | `T04FavoritDuaKaliTest` | Devi |
+| T05 | Reservasi tanpa jumlah pengunjung | Form ditolak | `T05ReservasiTanpaJumlahTest` | Nofita |
+| T06 | Approval melebihi kapasitas | Sistem menolak persetujuan | `T06ApprovalMelebihiKapasitasTest` | Nofita |
+| T07 | User melihat reservasi user lain | Tidak dapat diakses (403) | `T07ReservasiUserLainTest` | Zahra |
+| T08 | Submit kuis | Skor sesuai kunci jawaban | `T08SubmitKuisTest` | Izza |
+| T09 | Pilih opsi dari soal berbeda | Jawaban ditolak | `T09OpsiSoalBerbedaTest` | Izza |
+| T10 | Unggah file non-gambar | Ditolak di semua form gambar | `T10UnggahNonGambarTest` | Amel |
+
+Catatan T10: `UploadedFile::fake()` melaporkan tipe MIME dari **nama** berkas, sehingga berkas teks
+bernama `.jpg` bisa lolos di tes padahal di aplikasi sungguhan ditolak (Laravel membaca isi berkas).
+Karena itu tes T10 membuat berkas teks sungguhan untuk kasus tersebut.
