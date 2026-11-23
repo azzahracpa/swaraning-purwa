@@ -26,7 +26,7 @@
     </x-peringatan>
 @endif
 
-<div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+<div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
     {{-- Kolom kiri: editor --}}
     <div class="kartu flex flex-col"
          x-data="{
