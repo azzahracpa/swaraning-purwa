@@ -147,7 +147,7 @@ lalu isi path lengkapnya. Hapus `.env.production` dari laptop setelah selesai bi
 | Halaman tanpa CSS | Build Vite gagal. Cek log tahap `aset` di build Vercel. |
 | Link `http://` / mixed content | `APP_URL` belum diisi `https://...`. |
 | Upload gagal 500 | Kredensial `AWS_*` salah atau endpoint keliru. Disk `s3` sengaja melempar galat agar terlihat di Logs. |
-| Gambar contoh seeder tidak tampil | Gambar contoh ada di `public/images/contoh`, ikut ter-build. Pastikan seeder dijalankan ke database produksi. |
+| Foto koleksi seeder tidak tampil | Foto ada di `public/images/museum`, ikut ter-build. Pastikan seeder dijalankan ke database produksi. |
 
 ## Alternatif bila runtime container tidak tersedia
 

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Membantu mengubah path gambar yang tersimpan di database menjadi URL.
  *
- * - Gambar contoh dari seeder disimpan di public/images/contoh/ (aset statis
+ * - Foto dari seeder disimpan di public/images/museum/ (aset statis
  *   di repo), jadi cukup dipanggil dengan asset().
  * - Gambar hasil upload disimpan lewat Storage di disk FILESYSTEM_DISK
  *   (lokal: public, produksi: s3), jadi URL-nya dari Storage::url().
