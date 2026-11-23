@@ -37,7 +37,7 @@ class AdminKoleksiTest extends TestCase
     public function test_tambah_koleksi_dengan_foto_dan_foto_pertama_jadi_utama(): void
     {
         $this->actingAs($this->admin)->post(route('admin.koleksi.store'), $this->dataKoleksi([
-            'foto' => [UploadedFile::fake()->image('depan.jpg'), UploadedFile::fake()->image('samping.png')],
+            'foto' => [UploadedFile::fake()->image('depan.jpg', 800, 600), UploadedFile::fake()->image('samping.png', 640, 480)],
         ]))->assertSessionHasNoErrors();
 
         $koleksi = Collection::where('name', 'Arca Ganesha')->firstOrFail();
@@ -60,7 +60,7 @@ class AdminKoleksiTest extends TestCase
         $koleksi = Collection::factory()->create();
 
         $this->actingAs($this->admin)->post(route('admin.koleksi.foto.store', $koleksi), [
-            'foto' => [UploadedFile::fake()->image('besar.jpg')->size(3400)],
+            'foto' => [UploadedFile::fake()->image('besar.jpg', 800, 600)->size(3400)],
         ])->assertSessionHasErrors('foto.0');
     }
 
@@ -130,5 +130,26 @@ class AdminKoleksiTest extends TestCase
         $this->actingAs($this->admin)->get(route('admin.koleksi.edit', $koleksi))->assertOk()->assertSee('Foto utama');
         $this->actingAs($this->admin)->get(route('admin.koleksi.create'))->assertOk();
         $this->actingAs($this->admin)->get(route('admin.kategori.index'))->assertOk();
+    }
+
+    public function test_berkas_bukan_gambar_yang_diganti_ekstensinya_ditolak(): void
+    {
+        $koleksi = Collection::factory()->create();
+
+        // Nama .jpg tetapi isinya teks biasa
+        $palsu = UploadedFile::fake()->createWithContent('arca.jpg', 'ini bukan gambar');
+
+        $this->actingAs($this->admin)->post(route('admin.koleksi.foto.store', $koleksi), ['foto' => [$palsu]])
+            ->assertSessionHasErrors('foto.0');
+        $this->assertSame(0, $koleksi->images()->count());
+    }
+
+    public function test_foto_terlalu_kecil_ditolak_dengan_pesan_jelas(): void
+    {
+        $koleksi = Collection::factory()->create();
+
+        $this->actingAs($this->admin)->post(route('admin.koleksi.foto.store', $koleksi), [
+            'foto' => [UploadedFile::fake()->image('kecil.png', 200, 150)],
+        ])->assertSessionHasErrors(['foto.0' => 'Ukuran foto minimal 400 × 400 piksel.']);
     }
 }

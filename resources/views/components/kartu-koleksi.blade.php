@@ -15,6 +15,7 @@
                  class="size-full object-cover transition duration-500 group-hover:scale-[1.05]">
         @else
             <x-tempat-foto nada="lembut" class="size-full rounded-none" :keterangan="'Foto '.$koleksi->name" />
+            <span class="absolute bottom-3 left-3 rounded-kecil bg-putih/90 px-2.5 py-1 teks-label-kecil text-cokelat-600">Foto belum tersedia</span>
         @endif
     </div>
 
