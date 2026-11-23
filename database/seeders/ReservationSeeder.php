@@ -13,7 +13,15 @@ class ReservationSeeder extends Seeder
     {
         $pengguna = User::where('email', 'pengguna@swaraning-purwa.test')->first();
         $pengguna2 = User::where('email', 'pengguna2@swaraning-purwa.test')->first();
-        $jadwal = VisitSchedule::orderBy('visit_date')->orderBy('start_time')->get();
+
+        // Reservasi contoh hanya dibuat sekali. Kalau akun contoh sudah punya
+        // reservasi, seeder dilewati supaya data tidak dobel.
+        if (Reservation::whereIn('user_id', [$pengguna->id, $pengguna2->id])->exists()) {
+            return;
+        }
+
+        $jadwal = VisitSchedule::whereDate('visit_date', '>', today())
+            ->orderBy('visit_date')->orderBy('start_time')->get();
 
         $data = [
             [$pengguna, $jadwal[0], 12, Reservation::STATUS_APPROVED, 'Rombongan kelas (contoh)'],
