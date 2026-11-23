@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div class="flex flex-col gap-6">
             <div class="flex flex-wrap gap-5 text-kecil text-cokelat-600">
                 <span class="flex items-center gap-2"><span class="size-2.5 rounded-sm bg-maroon"></span> Disetujui (mengurangi kuota)</span>
