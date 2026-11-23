@@ -56,7 +56,7 @@
             </x-peringatan>
         @endif
 
-        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
             <div class="flex flex-col gap-6">
                 <x-admin.kotak nomor="01" label="Informasi kuis">
                     <x-kolom-isian name="title" label="Judul kuis" :value="$quiz->title" wajib maxlength="255" x-model="judul" />

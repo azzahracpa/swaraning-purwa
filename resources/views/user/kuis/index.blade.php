@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-    <div class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_280px]">
+    <div class="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1fr)_280px]">
         <section class="flex flex-col gap-5">
             <x-label-seksi nomor="01" label="Kuis aktif" />
 
