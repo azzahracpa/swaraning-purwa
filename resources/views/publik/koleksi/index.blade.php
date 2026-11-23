@@ -3,7 +3,7 @@
 @section('title', 'Katalog Koleksi')
 
 @php
-    $namaKategoriAktif = $kategoriAktif ? $kategori->firstWhere('id', $kategoriAktif)?->name : null;
+    $namaKategoriAktif = $kategoriTerpilih?->name;
 @endphp
 
 @section('content')
@@ -22,8 +22,8 @@
             Tombol kategori juga langsung mengirim form.
         --}}
         <form method="GET" action="{{ route('koleksi.index') }}" role="search"
-              x-data="{ cari: @js($cari), memuat: false, kirim() { this.memuat = true; this.$root.submit(); } }"
-              x-on:submit="memuat = true"
+              x-data="{ cari: @js($cari), memuat: false, kirim() { this.memuat = true; $dispatch('katalog-memuat'); this.$root.submit(); } }"
+              x-on:submit="memuat = true; $dispatch('katalog-memuat')"
               class="mt-8 flex flex-col gap-4 border-b border-garis pb-6 lg:flex-row lg:items-center lg:gap-5">
             {{-- Kategori aktif ikut terkirim saat mencari. Tombol kategori di bawah menimpanya. --}}
             <input type="hidden" name="kategori" value="{{ $kategoriAktif }}">
@@ -59,17 +59,44 @@
                 @endforeach
             </div>
 
-            <p class="text-kecil text-cokelat-600 lg:ml-auto" aria-live="polite">
-                <span x-show="memuat" x-cloak>Memuat…</span>
-                <span x-show="! memuat">Menampilkan {{ $koleksi->total() }} koleksi</span>
-            </p>
+            <div class="flex shrink-0 items-center justify-between gap-4 lg:ml-auto">
+                <p class="whitespace-nowrap text-kecil text-cokelat-600" aria-live="polite">
+                    <span x-show="memuat" x-cloak class="inline-flex items-center gap-2">
+                        <span class="size-3 animate-spin rounded-full border-2 border-garis border-t-maroon"></span> Memuat…
+                    </span>
+                    <span x-show="! memuat">
+                        {{ $koleksi->total() }} koleksi{{ $cari ? ' untuk “'.$cari.'”' : '' }}
+                    </span>
+                </p>
+                <label class="relative">
+                    <span class="sr-only">Urutkan koleksi</span>
+                    <x-ikon nama="urut" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-cokelat-600" />
+                    <select name="urut" class="kolom-input h-10 pl-9 text-kecil" x-on:change="kirim()">
+                        @foreach ($urutan as $kunci => $label)
+                            <option value="{{ $kunci }}" @selected($urut === $kunci)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </label>
+            </div>
         </form>
+        @if ($kategoriTerpilih?->description)
+            <div class="mt-6 flex items-start gap-4 rounded-kartu bg-ivory p-5" x-data x-muncul>
+                <x-belah-ketupat class="mt-1.5 shrink-0" />
+                <div>
+                    <p class="teks-label-kecil uppercase tracking-[0.1em] text-emas-700">Kategori {{ $kategoriTerpilih->name }}</p>
+                    <p class="mt-1 max-w-[720px] text-isi text-cokelat-600">{{ $kategoriTerpilih->description }}</p>
+                </div>
+            </div>
+        @endif
         @error('kategori')
             <p class="kolom-pesan-galat mt-3"><x-ikon nama="peringatan" class="size-4" /> {{ $message }}</p>
         @enderror
     </section>
 
-    <section class="wadah pb-24 pt-10 lg:pb-32 lg:pt-12">
+    {{-- Hasil dibuat redup saat form sedang dikirim, supaya terasa ada proses --}}
+    <section class="wadah pb-24 pt-10 transition-opacity duration-200 lg:pb-32 lg:pt-12"
+             x-data="{ memuat: false }" x-on:katalog-memuat.window="memuat = true"
+             :class="memuat && 'pointer-events-none opacity-40'" :aria-busy="memuat">
         @if ($koleksi->isEmpty())
             {{-- Keadaan kosong sesuai desain: ilustrasi relung + saran --}}
             <div class="mx-auto flex max-w-[420px] flex-col items-center gap-5 py-10 text-center">

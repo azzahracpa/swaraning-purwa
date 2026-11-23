@@ -18,17 +18,24 @@ class KatalogController extends Controller
         $filter = $request->validated();
         $cari = trim($filter['cari'] ?? '');
         $kategoriAktif = isset($filter['kategori']) ? (int) $filter['kategori'] : null;
+        $urut = $filter['urut'] ?? 'nama';
 
         $kategori = Category::orderBy('name')->get();
 
         $koleksi = Collection::with(['category', 'primaryImage'])
             ->cari($cari)
             ->dalamKategori($kategoriAktif)
-            ->orderBy('name')
+            ->when($urut === 'nama', fn ($q) => $q->orderBy('name'))
+            ->when($urut === 'nama_za', fn ($q) => $q->orderByDesc('name'))
+            ->when($urut === 'terbaru', fn ($q) => $q->latest()->orderByDesc('id'))
             ->paginate(8)
             ->withQueryString();
 
-        return view('publik.koleksi.index', compact('kategori', 'koleksi', 'cari', 'kategoriAktif'));
+        // Deskripsi kategori ditampilkan di atas hasil saat filter kategori aktif
+        $kategoriTerpilih = $kategori->firstWhere('id', $kategoriAktif);
+        $urutan = FilterKatalogRequest::URUTAN;
+
+        return view('publik.koleksi.index', compact('kategori', 'koleksi', 'cari', 'kategoriAktif', 'kategoriTerpilih', 'urut', 'urutan'));
     }
 
     /**
