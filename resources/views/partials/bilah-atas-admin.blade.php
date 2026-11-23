@@ -18,9 +18,9 @@
         <form method="GET" action="{{ Navigasi::url('admin.reservasi.index') }}" role="search"
               class="hidden h-10 w-[340px] items-center gap-2.5 rounded-input border border-garis-kuat bg-putih px-3.5 transition focus-within:border-cokelat focus-within:ring-1 focus-within:ring-cokelat xl:flex">
             <x-ikon nama="cari" class="size-4 text-cokelat-600" />
-            <label for="cari-admin" class="sr-only">Cari</label>
+            <label for="cari-admin" class="sr-only">Cari reservasi</label>
             <input id="cari-admin" type="search" name="cari" value="{{ request('cari') }}"
-                   placeholder="Cari kode booking, koleksi, atau artikel"
+                   placeholder="Cari kode booking atau nama pengunjung"
                    class="h-full flex-1 border-0 bg-transparent p-0 text-kecil text-cokelat placeholder:text-cokelat-600 focus:ring-0">
         </form>
         <p class="hidden whitespace-nowrap text-kecil text-cokelat-600 md:block">{{ now()->translatedFormat('l, j M Y') }}</p>
