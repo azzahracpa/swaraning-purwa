@@ -127,15 +127,20 @@ class CollectionSeeder extends Seeder
         ];
 
         foreach ($koleksi as $data) {
-            $collection = Collection::create([
+            // Koleksi yang sudah ada (misal sudah diubah pengelola) dilewati,
+            // jadi seeder aman dijalankan ulang di produksi
+            $collection = Collection::firstOrCreate(['name' => $data['name']], [
                 'category_id' => $kategori[$data['kategori']],
-                'name' => $data['name'],
                 'description' => $data['description'],
                 'historical_period' => $data['historical_period'],
                 'origin' => $data['origin'],
                 'material' => $data['material'],
                 'location' => $data['location'],
             ]);
+
+            if (! $collection->wasRecentlyCreated) {
+                continue;
+            }
 
             // Gambar contoh adalah aset statis di public/images/contoh/
             foreach ($data['gambar'] as [$file, $caption, $utama]) {

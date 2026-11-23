@@ -18,7 +18,8 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($kategori as $data) {
-            Category::create($data);
+            // firstOrCreate: aman dijalankan ulang, kategori yang sudah ada tidak diubah
+            Category::firstOrCreate(['name' => $data['name']], $data);
         }
     }
 }
