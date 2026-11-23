@@ -33,12 +33,12 @@ class SeederArtikelTest extends TestCase
         $this->assertSame('Alamat dari pengelola', MuseumProfile::utama()->address);
     }
 
-    public function test_artikel_contoh_berlabel_dan_gambarnya_ada(): void
+    public function test_sampul_artikel_memakai_foto_museum_yang_ada_berkasnya(): void
     {
         $this->seed([UserSeeder::class, ArticleSeeder::class]);
 
         foreach (Article::all() as $artikel) {
-            $this->assertStringContainsString('contoh', $artikel->title);
+            $this->assertStringStartsWith('images/museum/', $artikel->image_url);
             $this->assertFileExists(public_path($artikel->image_url));
         }
         $this->assertSame(1, Article::whereNull('published_at')->count(), 'Satu artikel draf untuk contoh tampilan admin.');

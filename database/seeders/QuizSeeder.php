@@ -14,7 +14,7 @@ class QuizSeeder extends Seeder
     {
         $kuis = [
             [
-                'title' => 'Mengenal Koleksi Arca (contoh)',
+                'title' => 'Mengenal Koleksi Arca',
                 'description' => 'Uji pengetahuan dasar tentang arca di Museum Mpu Purwa.',
                 'is_active' => true,
                 'soal' => [
@@ -25,7 +25,7 @@ class QuizSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Prasasti dan Aksara (contoh)',
+                'title' => 'Prasasti dan Aksara',
                 'description' => 'Kuis singkat tentang prasasti dan aksara kuno.',
                 'is_active' => true,
                 'soal' => [
@@ -37,7 +37,7 @@ class QuizSeeder extends Seeder
             ],
             [
                 // Kuis nonaktif (draf) untuk menguji tampilan admin
-                'title' => 'Gerabah Nusantara (draf contoh)',
+                'title' => 'Gerabah Nusantara (draf)',
                 'description' => 'Kuis masih disusun dan belum aktif.',
                 'is_active' => false,
                 'soal' => [
