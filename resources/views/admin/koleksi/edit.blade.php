@@ -18,7 +18,7 @@
         </x-peringatan>
     @endif
 
-    <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div class="flex flex-col gap-6">
             <form method="POST" action="{{ route('admin.koleksi.update', $koleksi) }}" id="form-koleksi"
                   x-data="{ berubah: false }" x-on:input="berubah = true">

@@ -8,7 +8,7 @@
         <a href="{{ route('admin.kategori.index') }}#form-kategori" class="tombol tombol-utama">Tambah kategori</a>
     </x-admin.kepala>
 
-    <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div>
             <p class="mb-4 flex items-center gap-3 text-label font-semibold">
                 {{ $kategori->count() }} kategori <x-penanda-contoh teks="data contoh" />
