@@ -92,7 +92,8 @@ Migrasi **tidak** dijalankan saat container menyala (banyak instance bisa menyal
 Jalankan sekali dari laptop memakai berkas `.env.production` yang **tidak ikut di-commit** (sudah ada di `.gitignore`).
 
 Isi `.env.production` minimal: `APP_KEY`, `DB_*`, `MYSQL_ATTR_SSL_CA` (di laptop pakai path sertifikat laptop,
-atau kosongkan jika penyedia tidak mewajibkan), `SEED_ADMIN_PASSWORD`, dan `SEED_USER_PASSWORD` dengan kata sandi kuat.
+atau kosongkan jika penyedia tidak mewajibkan), `SEED_ADMIN_PASSWORD`, dan `SEED_USER_PASSWORD` dengan kata sandi kuat (minimal 10 karakter;
+seeder menolak berjalan di produksi bila masih `password`). Seeder aman dijalankan ulang.
 
 Mac (Terminal):
 

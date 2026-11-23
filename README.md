@@ -6,6 +6,23 @@ Project akhir mata kuliah Pengembangan Aplikasi Web Lanjut, FILKOM UB.
 > Semua data di aplikasi ini adalah **data contoh** dan belum diverifikasi pihak museum.
 > Situs ini bukan situs resmi Museum Mpu Purwa.
 
+## Alamat aplikasi
+
+| Lingkungan | Alamat |
+| --- | --- |
+| Produksi (Vercel) | (diisi setelah deploy, Senin 23 November 2026) |
+| Laptop | http://localhost:8000 |
+
+Pemeriksaan cepat: buka `/health`, hasilnya `{"status":"ok","database":"ok"}`.
+
+## Fitur
+
+| Peran | Yang bisa dilakukan |
+| --- | --- |
+| Pengunjung (tanpa akun) | Beranda, profil museum, katalog koleksi dengan pencarian, filter kategori, dan urutan, detail koleksi dengan galeri foto, artikel |
+| Pengguna (akun user) | Semua fitur pengunjung, simpan koleksi favorit, ajukan reservasi kunjungan dan lihat riwayat/kode booking, batalkan pengajuan, kerjakan kuis dan lihat skor, dashboard ringkasan, ubah profil |
+| Pengelola (akun admin) | Dashboard statistik dan grafik 7 hari, kelola koleksi beserta foto, kategori, artikel (draf/terbit/terjadwal), profil museum, jadwal kunjungan, persetujuan reservasi dengan cek kapasitas, kuis beserta soal dan opsi |
+
 ## Anggota dan modul
 
 | Anggota | Modul utama |
@@ -56,7 +73,11 @@ Buka http://localhost:8000
 | User | pengguna2@swaraning-purwa.test | `password` |
 
 Kata sandi bisa diganti lewat variabel `SEED_ADMIN_PASSWORD` dan `SEED_USER_PASSWORD`.
-Untuk produksi wajib diganti dengan nilai kuat.
+Di produksi seeder **menolak berjalan** bila kata sandi masih `password` atau kurang dari 10 karakter.
+Kata sandi akun demo produksi dibagikan langsung kepada dosen, tidak ditulis di repo.
+
+Seeder aman dijalankan ulang (`php artisan db:seed`): data yang sudah ada, termasuk yang sudah
+diubah pengelola, tidak ditimpa dan tidak dobel. Jadwal contoh dibuat untuk 4 pekan ke depan.
 
 ## Struktur dan konvensi kode
 
@@ -124,6 +145,7 @@ link otomatis mengarah ke `#`.
 | Akun (Zahra) | `login`, `register`, `logout`, `dashboard`, `profile.edit`, `profile.update` |
 | Reservasi (Nofita) | `reservasi.index`, `reservasi.store`, `reservasi.riwayat`, `reservasi.show`, `reservasi.batal`, `admin.jadwal.*`, `admin.reservasi.*` |
 | Kuis, dashboard admin (Izza) | `kuis.index`, `kuis.mulai`, `kuis.kerjakan`, `kuis.kirim`, `kuis.hasil`, `admin.kuis.*`, `admin.dashboard` |
+| Deploy (Zahra) | `health` (`GET /health`) |
 
 ## Basis data
 
@@ -170,6 +192,13 @@ password (`password_reset_tokens`). Tabel antrean (`jobs`) juga tidak dibuat kar
 | Proxy dan HTTPS | `trustProxies(at: '*')` di `bootstrap/app.php`; kalau `APP_URL` diawali `https://`, semua URL dipaksa https |
 | Aset Vite | dibangun saat build (`npm run build`), folder `public/build` tidak di-commit |
 | Rahasia | tidak ada `.env` di repo; semua variabel ada di `.env.example` beserta penjelasannya |
+| Nilai bawaan | tanpa `.env` pun nama aplikasi "Swaraning Purwa", bahasa Indonesia, zona waktu `Asia/Jakarta` |
+| Pemeriksaan | `GET /health` mengecek aplikasi dan koneksi database, tanpa sesi dan cookie |
+| Container | `Dockerfile.vercel` (FrankenPHP), `Caddyfile`, `vercel.json`, `.dockerignore` |
+
+Langkah deploy lengkap, termasuk pilihan MySQL dan penyimpanan S3 kompatibel, variabel
+Vercel untuk Preview dan Production, migrasi dari laptop, dan pemecahan masalah, ada di
+[DEPLOY.md](DEPLOY.md).
 
 Contoh menyimpan dan menampilkan upload:
 
