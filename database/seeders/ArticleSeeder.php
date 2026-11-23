@@ -67,7 +67,14 @@ class ArticleSeeder extends Seeder
         ];
 
         foreach ($artikel as $data) {
-            $article = new Article($data);
+            // Artikel dengan judul yang sama sudah ada: lewati, jangan timpa suntingan pengelola
+            $article = Article::firstOrNew(['title' => $data['title']]);
+
+            if ($article->exists) {
+                continue;
+            }
+
+            $article->fill($data);
             $article->author_id = $admin->id;
             $article->save();
         }

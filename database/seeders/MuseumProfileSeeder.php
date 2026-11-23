@@ -9,6 +9,11 @@ class MuseumProfileSeeder extends Seeder
 {
     public function run(): void
     {
+        // Profil hanya satu baris. Kalau sudah diisi pengelola, jangan ditimpa.
+        if (MuseumProfile::query()->exists()) {
+            return;
+        }
+
         // Data contoh, wajib diverifikasi ke pihak museum sebelum dipublikasikan
         MuseumProfile::create([
             'name' => 'Museum Mpu Purwa',
