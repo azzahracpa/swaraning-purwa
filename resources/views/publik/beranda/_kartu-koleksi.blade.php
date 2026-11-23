@@ -19,7 +19,6 @@
             <span class="rounded-kecil border border-garis-kuat px-2.5 py-1 teks-label-kecil text-cokelat-600">
                 {{ $koleksi->category->name }}
             </span>
-            <x-penanda-contoh teks="data contoh" />
         </div>
         <h3 class="teks-h3 transition-colors group-hover:text-maroon">{{ $koleksi->name }}</h3>
         <p class="text-kecil text-cokelat-600">

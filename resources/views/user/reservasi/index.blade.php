@@ -51,7 +51,7 @@
                     <x-label-seksi nomor="01" label="Pilih jadwal" />
 
                     <div class="flex flex-col gap-3">
-                        <p class="flex items-center gap-3 text-label font-semibold">Tanggal kunjungan <x-penanda-contoh teks="jadwal contoh" /></p>
+                        <p class="flex items-center gap-3 text-label font-semibold">Tanggal kunjungan</p>
                         <div x-geser class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
                             @foreach ($daftarTanggal as $tanggal)
                                 @php $aktif = $tanggal->toDateString() === $tanggalDipilih; @endphp
@@ -124,7 +124,7 @@
                         @enderror
                     </div>
 
-                    <x-kolom-isian name="notes" label="Catatan" placeholder="Contoh: rombongan pelajar SMP, ada 2 pendamping guru."
+                    <x-kolom-isian name="notes" label="Catatan" placeholder="Misalnya: rombongan pelajar SMP, ada 2 pendamping guru."
                                    bantuan="Opsional. Maksimal 500 karakter." maxlength="500" />
 
                     <div class="flex flex-wrap gap-3">
@@ -140,7 +140,6 @@
             <aside class="kartu flex flex-col gap-4 self-start p-5 xl:sticky xl:top-24">
                 <div class="flex items-center justify-between">
                     <h2 class="teks-h3">Ringkasan pengajuan</h2>
-                    <x-penanda-contoh />
                 </div>
                 <dl class="flex flex-col text-kecil">
                     <div class="flex justify-between gap-3 border-t border-garis py-2.5"><dt class="text-cokelat-600">Jadwal</dt><dd class="text-right font-semibold">{{ $tanggalTeks }}</dd></div>

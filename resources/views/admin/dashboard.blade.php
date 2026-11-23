@@ -28,7 +28,7 @@
 
     {{-- 01 Ringkasan --}}
     <section class="flex flex-col gap-4">
-        <div class="flex items-center gap-3"><x-label-seksi nomor="01" label="Ringkasan hari ini" /> <x-penanda-contoh teks="data contoh" /></div>
+        <div class="flex items-center gap-3"><x-label-seksi nomor="01" label="Ringkasan hari ini" /></div>
         <div class="grid overflow-hidden rounded-kartu border border-garis bg-putih sm:grid-cols-2 xl:grid-cols-4">
             @foreach ($kartu as $i => [$nomor, $judul, $angka, $ket, $sorot])
                 <div class="flex flex-col gap-2 p-6 transition {{ $sorot ? 'bg-maroon text-ivory' : 'border-garis hover:bg-ivory/60 sm:border-l' }}"
@@ -121,7 +121,7 @@
     <div class="mt-12 grid gap-8 xl:grid-cols-[minmax(0,1fr)_340px]">
         {{-- 03 Grafik pengunjung 7 hari --}}
         <section class="flex flex-col gap-4">
-            <div class="flex items-center gap-3"><x-label-seksi nomor="03" label="Pengunjung 7 hari ke depan" /> <x-penanda-contoh teks="data contoh" /></div>
+            <div class="flex items-center gap-3"><x-label-seksi nomor="03" label="Pengunjung 7 hari ke depan" /></div>
             <div class="kartu flex flex-col gap-4 p-6">
                 <div class="flex flex-wrap gap-5 text-kecil text-cokelat-600">
                     <span class="flex items-center gap-2"><span class="size-2.5 rounded-sm bg-maroon"></span> Disetujui</span>

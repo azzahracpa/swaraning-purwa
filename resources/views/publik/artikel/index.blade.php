@@ -37,7 +37,6 @@
                     <div class="flex flex-col gap-4">
                         <p class="flex flex-wrap items-center gap-2 text-kecil text-cokelat-600">
                             01 · {{ $sorotan->published_at->translatedFormat('j F Y') }} · Penulis: {{ $sorotan->author->name }}
-                            <x-penanda-contoh />
                         </p>
                         <h2 class="teks-h1 transition-colors group-hover:text-maroon">{{ $sorotan->title }}</h2>
                         <p class="text-isi text-cokelat-600">{{ $sorotan->ringkasan() }}</p>

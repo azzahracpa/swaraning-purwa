@@ -116,7 +116,6 @@
             <div class="flex flex-col gap-6 lg:pt-6" x-data x-muncul="100">
                 <div class="flex flex-wrap items-center gap-2">
                     <x-label-kategori>{{ $koleksi->category->name }}</x-label-kategori>
-                    <x-penanda-contoh teks="nama dan data contoh" />
                 </div>
                 <h1 class="teks-display-l uppercase">{{ $koleksi->name }}</h1>
                 <p class="text-isi text-cokelat-600">{{ \Illuminate\Support\Str::limit($paragraf->first(), 160) }}</p>
@@ -159,7 +158,6 @@
                 <div>
                     <div class="flex items-center justify-between border-b border-garis pb-3">
                         <h2 class="text-label font-semibold">Keterangan</h2>
-                        <x-penanda-contoh teks="data contoh" />
                     </div>
                     <dl>
                         @foreach ($keterangan as $label => $nilai)

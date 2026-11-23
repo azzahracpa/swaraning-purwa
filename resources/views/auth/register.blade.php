@@ -8,7 +8,7 @@
 
         <x-kolom-isian name="name" label="Nama lengkap" placeholder="Nama sesuai identitas"
                        wajib autofocus autocomplete="name" />
-        <x-kolom-isian name="email" label="Email" type="email" placeholder="email@contoh.com"
+        <x-kolom-isian name="email" label="Email" type="email" placeholder="nama@email.com"
                        wajib autocomplete="username" />
 
         <div class="flex flex-col gap-2">

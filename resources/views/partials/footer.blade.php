@@ -2,11 +2,13 @@
     use App\Support\Navigasi;
 
     // $profilMuseum dikirim oleh view composer di AppServiceProvider
-    $kontak = [
-        ['ikon' => 'lokasi', 'teks' => $profilMuseum?->address ?? 'Alamat lengkap museum'],
-        ['ikon' => 'jam', 'teks' => $profilMuseum?->opening_hours ?? 'Jam buka'],
-        ['ikon' => 'surat', 'teks' => $profilMuseum?->email ?? 'Kontak resmi museum'],
-    ];
+    // Kontak yang belum diisi pengelola tidak ditampilkan
+    $kontak = array_filter([
+        ['ikon' => 'lokasi', 'teks' => $profilMuseum?->address],
+        ['ikon' => 'jam', 'teks' => $profilMuseum?->opening_hours],
+        ['ikon' => 'telepon', 'teks' => $profilMuseum?->phone],
+        ['ikon' => 'surat', 'teks' => $profilMuseum?->email],
+    ], fn ($baris) => filled($baris['teks']));
 @endphp
 
 <footer class="mt-auto overflow-hidden bg-cokelat text-di-gelap">
@@ -47,7 +49,6 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <x-ikon :nama="$baris['ikon']" class="size-[18px] text-emas" />
                         <span class="text-kecil">{{ $baris['teks'] }}</span>
-                        <x-penanda-contoh latar="gelap" />
                     </div>
                 @endforeach
             </div>

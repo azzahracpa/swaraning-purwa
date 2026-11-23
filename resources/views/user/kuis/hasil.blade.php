@@ -26,7 +26,7 @@
                 <span class="text-kecil text-di-gelap">dari {{ $totalPoin }} poin</span>
             </div>
             <div class="flex flex-col gap-3">
-                <p class="flex items-center gap-2 text-label font-semibold"><x-belah-ketupat /> {{ $attempt->quiz->title }} <x-penanda-contoh latar="gelap" /></p>
+                <p class="flex items-center gap-2 text-label font-semibold"><x-belah-ketupat /> {{ $attempt->quiz->title }}</p>
                 <p class="font-display text-h1-ponsel font-medium uppercase lg:text-h1">
                     <em class="text-emas">{{ $jumlahBenar }} dari {{ $jumlahSoal }}</em> soal benar
                 </p>

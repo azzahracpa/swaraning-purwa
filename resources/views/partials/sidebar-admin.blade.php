@@ -49,7 +49,7 @@
         <x-avatar-inisial :user="$admin" />
         <div class="flex min-w-0 flex-col gap-0.5 text-di-gelap">
             <p class="truncate text-label font-semibold">{{ $admin->name }}</p>
-            <p class="text-kecil opacity-70">Pengelola · contoh</p>
+            <p class="text-kecil opacity-70">Pengelola</p>
         </div>
     </div>
 

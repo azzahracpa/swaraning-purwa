@@ -31,7 +31,6 @@
             <p class="text-cokelat-600">Jumlah</p>
             <p class="font-semibold">{{ $reservasi->total_visitors }} orang</p>
         </div>
-        <x-penanda-contoh class="md:ml-auto" />
     </div>
 
     <dl class="mt-6 grid gap-4 text-kecil sm:grid-cols-3">

@@ -14,7 +14,7 @@
             </h1>
             <div class="relative hidden h-24 w-[220px] items-center justify-center overflow-hidden rounded-full bg-cokelat xl:flex" aria-hidden="true">
                 <span class="absolute inset-0 bg-kawung bg-[length:40px_40px] opacity-[0.16]"></span>
-                <x-penanda-contoh latar="gelap" teks="Foto contoh" class="relative" />
+                <img src="{{ asset('images/museum/ruang-koleksi-lantai-dua.jpg') }}" alt="" class="absolute inset-0 size-full object-cover">
             </div>
             <div class="relative hidden h-24 w-[72px] overflow-hidden rounded-b-[10px] rounded-t-[36px] bg-foto xl:block" aria-hidden="true">
                 <span class="absolute inset-0 bg-kawung bg-[length:40px_40px] opacity-[0.18]"></span>
@@ -33,14 +33,19 @@
 
         <div class="relative mt-4 h-[220px] overflow-hidden rounded-banner bg-cokelat sm:h-[320px] lg:mt-0 lg:h-[440px]" x-data x-muncul="200">
             @if ($profil?->gambar_url)
-                <img src="{{ $profil->gambar_url }}" alt="Foto contoh suasana museum"
+                <img src="{{ $profil->gambar_url }}" alt="Tampak depan Museum Mpu Purwa"
                      class="size-full object-cover transition duration-700 hover:scale-[1.02]">
             @else
-                <x-tempat-foto class="size-full rounded-none" keterangan="Foto suasana ruang koleksi museum." />
+                <x-tempat-foto class="size-full rounded-none" keterangan="Foto tampak depan museum." />
             @endif
         </div>
         <p class="mt-3 text-kecil text-cokelat-600">
-            Foto suasana ruang koleksi museum. Semua foto di halaman ini contoh dan menunggu izin penggunaan.
+            @if ($profil?->image_url === 'images/museum/museum-tampak-depan.jpg')
+                Tampak depan Museum Mpu Purwa. Foto: Muhamad Abdu (CC BY-SA 4.0), Wikimedia Commons.
+            @else
+                Tampak depan Museum Mpu Purwa.
+            @endif
+            Foto koleksi dari Wikimedia Commons, nama fotografer ada di halaman detail koleksi.
         </p>
     </section>
 
@@ -62,13 +67,12 @@
         <aside class="kartu flex flex-col gap-[18px] self-start p-5 sm:p-7" x-data x-muncul="150" aria-label="Info kunjungan">
             <div class="flex items-center justify-between">
                 <h3 class="text-label font-semibold">Info kunjungan</h3>
-                <x-penanda-contoh />
             </div>
-            @foreach ([
-                ['jam', 'Jam buka', $profil?->opening_hours ?? 'Menunggu verifikasi dari pengelola'],
-                ['lokasi', 'Lokasi', $profil?->address ?? 'Kota Malang. Alamat lengkap menyusul'],
+            @foreach (array_filter([
+                ['jam', 'Jam buka', $profil?->opening_hours],
+                ['lokasi', 'Lokasi', $profil?->address],
                 ['kalender', 'Reservasi', 'Diajukan lewat akun, ditinjau pengelola'],
-            ] as [$ikon, $judul, $isi])
+            ], fn ($baris) => filled($baris[2])) as [$ikon, $judul, $isi])
                 <div class="flex items-start gap-3">
                     <x-ikon :nama="$ikon" class="mt-px text-maroon" />
                     <div class="flex flex-col gap-0.5">
@@ -165,7 +169,6 @@
                     </div>
                     <p class="flex items-center gap-2 text-kecil text-cokelat-600">
                         01 · {{ $utama->published_at->translatedFormat('j F Y') }}
-                        <x-penanda-contoh />
                     </p>
                     <h3 class="teks-h1 transition-colors group-hover:text-maroon">{{ $utama->title }}</h3>
                     <p class="max-w-[640px] text-isi text-cokelat-600">{{ $utama->ringkasan() }}</p>
@@ -246,7 +249,6 @@
                     @foreach ($daftarKuis as $kuis)
                         <li class="flex items-center justify-between gap-3 border-t border-garis py-3.5 last:border-b">
                             <span class="text-isi">{{ $kuis->title }}</span>
-                            <x-penanda-contoh />
                         </li>
                     @endforeach
                 </ul>
@@ -281,7 +283,6 @@
                         <p class="text-kecil text-cokelat-600">
                             {{ $kuisPratinjau->title }} · soal <span x-text="ke + 1"></span> dari {{ $kuisPratinjau->questions_count }}
                         </p>
-                        <x-penanda-contoh teks="pratinjau" />
                     </div>
                     <div class="h-1.5 overflow-hidden rounded-full bg-lembut">
                         <div class="h-full rounded-full bg-maroon transition-all duration-500"

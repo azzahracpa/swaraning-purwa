@@ -82,7 +82,6 @@
 
         <div class="mt-6 flex items-center gap-3">
             <p class="text-kecil text-cokelat-600">Menampilkan {{ $reservasi->count() }} reservasi</p>
-            <x-penanda-contoh teks="data contoh" />
         </div>
         <div class="mt-4">{{ $reservasi->links() }}</div>
     @endif

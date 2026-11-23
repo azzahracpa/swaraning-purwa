@@ -62,7 +62,6 @@
                 <span class="rounded-kecil border border-garis-kuat bg-putih px-2.5 py-1 teks-label-kecil text-cokelat-600">
                     Peran: {{ $user->isAdmin() ? 'Pengelola' : 'Pengguna' }}
                 </span>
-                <x-penanda-contoh />
             </div>
             <div class="h-px bg-garis-kuat"></div>
             <p class="text-kecil text-cokelat-600">Bergabung sejak {{ $user->created_at->translatedFormat('j F Y') }}</p>

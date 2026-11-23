@@ -27,7 +27,7 @@
                     <x-admin.chip :href="route('favorit.index', array_filter(['kategori' => $item->id, 'urut' => request('urut')]))"
                                   :aktif="$kategoriAktif === $item->id">{{ $item->name }}</x-admin.chip>
                 @endforeach
-                <span class="ml-1 flex items-center gap-2 text-kecil text-cokelat-600">{{ $favorit->count() }} koleksi tersimpan <x-penanda-contoh /></span>
+                <span class="ml-1 flex items-center gap-2 text-kecil text-cokelat-600">{{ $favorit->count() }} koleksi tersimpan</span>
             </div>
             <label class="relative lg:ml-auto">
                 <span class="sr-only">Urutkan</span>
