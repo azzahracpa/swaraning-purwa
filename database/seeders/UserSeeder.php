@@ -11,30 +11,43 @@ class UserSeeder extends Seeder
     {
         // Password akun contoh diambil dari env supaya di produksi bisa diganti
         // tanpa mengubah kode. Default "password" hanya untuk laptop.
-        $passwordAdmin = env('SEED_ADMIN_PASSWORD', 'password');
-        $passwordUser = env('SEED_USER_PASSWORD', 'password');
+        $passwordAdmin = (string) env('SEED_ADMIN_PASSWORD', 'password');
+        $passwordUser = (string) env('SEED_USER_PASSWORD', 'password');
 
-        $admin = new User([
-            'name' => 'Admin Museum',
-            'email' => 'admin@swaraning-purwa.test',
-            'password' => $passwordAdmin,
-            'phone' => '081200000001',
-        ]);
-        $admin->role = User::ROLE_ADMIN;
-        $admin->save();
+        if (app()->isProduction()) {
+            $this->pastikanSandiKuat('SEED_ADMIN_PASSWORD', $passwordAdmin);
+            $this->pastikanSandiKuat('SEED_USER_PASSWORD', $passwordUser);
+        }
 
-        User::create([
-            'name' => 'Nama Pengguna',
-            'email' => 'pengguna@swaraning-purwa.test',
-            'password' => $passwordUser,
-            'phone' => '081200000002',
-        ]);
+        $this->akun('admin@swaraning-purwa.test', 'Admin Museum', '081200000001', $passwordAdmin, User::ROLE_ADMIN);
+        $this->akun('pengguna@swaraning-purwa.test', 'Nama Pengguna', '081200000002', $passwordUser);
+        $this->akun('pengguna2@swaraning-purwa.test', 'Pengguna Kedua', '081200000003', $passwordUser);
+    }
 
-        User::create([
-            'name' => 'Pengguna Kedua',
-            'email' => 'pengguna2@swaraning-purwa.test',
-            'password' => $passwordUser,
-            'phone' => '081200000003',
-        ]);
+    /**
+     * Buat akun bila belum ada. Akun yang sudah ada tidak diubah, jadi
+     * seeder aman dijalankan ulang dan tidak menimpa password yang sudah diganti.
+     */
+    private function akun(string $email, string $nama, string $telepon, string $password, string $role = User::ROLE_USER): void
+    {
+        $user = User::firstOrNew(['email' => $email]);
+
+        if ($user->exists) {
+            return;
+        }
+
+        $user->fill(['name' => $nama, 'phone' => $telepon, 'password' => $password]);
+        $user->role = $role;
+        $user->save();
+    }
+
+    /**
+     * Di produksi, akun contoh tidak boleh memakai password bawaan.
+     */
+    private function pastikanSandiKuat(string $variabel, string $nilai): void
+    {
+        if ($nilai === 'password' || strlen($nilai) < 10) {
+            throw new \RuntimeException("Isi {$variabel} dengan kata sandi minimal 10 karakter sebelum menjalankan seeder di produksi.");
+        }
     }
 }

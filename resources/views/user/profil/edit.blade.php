@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="grid gap-10 xl:grid-cols-[minmax(0,1fr)_240px]">
+    <div class="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_240px]">
         <form method="POST" action="{{ route('profile.update') }}" class="flex flex-col gap-6"
               x-data="{ berubah: false, mengirim: false }"
               x-on:input="berubah = true"
