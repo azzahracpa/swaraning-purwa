@@ -19,7 +19,7 @@
             </x-peringatan>
         @endif
 
-        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
             @include('admin.koleksi._form')
 
             <x-admin.kotak nomor="02" label="Foto koleksi">
