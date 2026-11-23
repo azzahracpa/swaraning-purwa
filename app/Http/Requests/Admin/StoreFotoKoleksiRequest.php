@@ -19,7 +19,7 @@ class StoreFotoKoleksiRequest extends FormRequest
 
         return [
             'foto' => ['required', 'array', 'min:1', 'max:'.$sisa],
-            'foto.*' => ['required', ...Gambar::ATURAN],
+            'foto.*' => ['required', ...StoreKoleksiRequest::ATURAN_FOTO],
         ];
     }
 
@@ -29,6 +29,7 @@ class StoreFotoKoleksiRequest extends FormRequest
             'foto.required' => 'Pilih minimal satu foto.',
             'foto.max' => 'Batas foto tercapai. Satu koleksi maksimal '.StoreKoleksiRequest::MAKS_FOTO.' foto.',
             ...Gambar::pesan('foto.*'),
+            ...StoreKoleksiRequest::PESAN_FOTO,
         ];
     }
 
