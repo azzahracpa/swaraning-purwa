@@ -41,7 +41,7 @@
                   ubahJumlah(n) { this.jumlah = Math.min(Math.max(1, (Number(this.jumlah) || 0) + n), this.maks) },
               }"
               x-on:submit="mengirim = true"
-              class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_300px]">
+              class="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1fr)_300px]">
             @csrf
 
             {{-- min-w-0 supaya deretan tanggal yang bisa digeser tidak melebarkan halaman di ponsel --}}

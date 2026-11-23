@@ -51,7 +51,7 @@
         <p class="mb-4 text-kecil text-cokelat-600">Hasil pencarian "{{ $cari }}" · <a href="{{ route('admin.reservasi.index') }}" class="tautan">hapus pencarian</a></p>
     @endif
 
-    <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
         <div class="min-w-0">
             @if ($reservasi->isEmpty())
                 <x-keadaan-kosong judul="Tidak ada reservasi di daftar ini" ikon="daftar">
