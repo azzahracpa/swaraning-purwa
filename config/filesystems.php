@@ -56,8 +56,10 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
-            'report' => false,
+            // Di produksi upload yang gagal harus terlihat (muncul di log Vercel),
+            // bukan diam-diam menyimpan path kosong ke database.
+            'throw' => true,
+            'report' => true,
         ],
 
     ],

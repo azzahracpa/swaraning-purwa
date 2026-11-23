@@ -29,8 +29,17 @@ class Gambar
      */
     public static function simpan(UploadedFile $berkas, string $folder): string
     {
-        // Nama file dibuat acak oleh Laravel supaya tidak bentrok
-        return $berkas->store($folder, ['visibility' => 'public']);
+        // Nama file dibuat acak oleh Laravel supaya tidak bentrok.
+        // Tanpa opsi visibility: disk public lokal sudah publik dari config, dan
+        // bucket S3 kompatibel (misal Cloudflare R2) diatur publik dari dasbor
+        // penyedia karena sebagian penyedia menolak ACL per berkas.
+        $path = $berkas->store($folder);
+
+        if ($path === false) {
+            throw new \RuntimeException('Berkas gagal disimpan ke disk '.config('filesystems.default').'.');
+        }
+
+        return $path;
     }
 
     /**
