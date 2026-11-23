@@ -32,6 +32,7 @@ class QuizSeeder extends Seeder
                     ['Prasasti biasanya diawali dengan...', 10, ['Penanggalan', 'Gambar raja', 'Daftar harga', 'Peta'], 0],
                     ['Tanah yang dibebaskan dari pajak dalam prasasti disebut...', 10, ['Sawah', 'Sima', 'Keraton', 'Candi'], 1],
                     ['Aksara yang banyak dipakai pada prasasti di Jawa Timur adalah...', 10, ['Latin', 'Jawa Kuno', 'Arab', 'Hanzi'], 1],
+                    ['Prasasti Dinoyo dari Malang menyebut kerajaan...', 10, ['Majapahit', 'Singhasari', 'Kanjuruhan', 'Kediri'], 2],
                 ],
             ],
             [
@@ -46,6 +47,11 @@ class QuizSeeder extends Seeder
         ];
 
         foreach ($kuis as $dataKuis) {
+            // Kuis dengan judul sama sudah ada: lewati supaya soal tidak dobel
+            if (Quiz::where('title', $dataKuis['title'])->exists()) {
+                continue;
+            }
+
             $quiz = Quiz::create([
                 'title' => $dataKuis['title'],
                 'description' => $dataKuis['description'],
@@ -77,7 +83,12 @@ class QuizSeeder extends Seeder
     private function buatContohPengerjaan(): void
     {
         $pengguna = User::where('email', 'pengguna@swaraning-purwa.test')->first();
-        $quiz = Quiz::with('questions.options')->where('is_active', true)->first();
+        $quiz = Quiz::with('questions.options')->where('is_active', true)->orderBy('id')->first();
+
+        // Contoh pengerjaan cukup satu kali
+        if (! $pengguna || ! $quiz || $pengguna->quizAttempts()->exists()) {
+            return;
+        }
 
         $attempt = new QuizAttempt([
             'quiz_id' => $quiz->id,
