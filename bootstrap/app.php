@@ -18,6 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         // Alias middleware role, dipakai seperti ->middleware('role:admin')
+        // User yang sudah login lalu membuka /login atau /register diarahkan
+        // sesuai perannya, supaya admin tidak tersasar ke /dashboard (403).
+        $middleware->redirectUsersTo(
+            fn (Request $request) => $request->user()?->isAdmin() ? route('admin.dashboard') : route('dashboard'),
+        );
+
         $middleware->alias([
             'role' => EnsureUserHasRole::class,
         ]);
