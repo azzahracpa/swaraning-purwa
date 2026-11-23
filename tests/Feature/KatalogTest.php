@@ -73,4 +73,33 @@ class KatalogTest extends TestCase
     {
         $this->get('/koleksi/99999')->assertNotFound();
     }
+
+    public function test_urutan_nama_terbalik_dan_terbaru(): void
+    {
+        Collection::factory()->create(['name' => 'Arca contoh', 'created_at' => now()->subDays(5)]);
+        Collection::factory()->create(['name' => 'Yoni contoh', 'created_at' => now()->subDays(3)]);
+        Collection::factory()->create(['name' => 'Lingga contoh', 'created_at' => now()]);
+
+        $this->get(route('koleksi.index', ['urut' => 'nama_za']))
+            ->assertOk()->assertSeeInOrder(['Yoni contoh', 'Lingga contoh', 'Arca contoh']);
+
+        $this->get(route('koleksi.index', ['urut' => 'terbaru']))
+            ->assertOk()->assertSeeInOrder(['Lingga contoh', 'Yoni contoh', 'Arca contoh']);
+    }
+
+    public function test_urutan_tidak_dikenal_ditolak(): void
+    {
+        $this->get(route('koleksi.index', ['urut' => 'acak']))->assertSessionHasErrors('urut');
+    }
+
+    public function test_filter_kategori_menampilkan_deskripsi_dan_penanda_tanpa_foto(): void
+    {
+        $kategori = Category::factory()->create(['description' => 'Deskripsi kategori contoh untuk tes.']);
+        Collection::factory()->for($kategori)->create();
+
+        $this->get(route('koleksi.index', ['kategori' => $kategori->id]))
+            ->assertOk()
+            ->assertSee('Deskripsi kategori contoh untuk tes.')
+            ->assertSee('Foto belum tersedia');
+    }
 }
