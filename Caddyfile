@@ -1,0 +1,14 @@
+# Konfigurasi FrankenPHP/Caddy. Port mengikuti variabel PORT dari Vercel.
+# Hanya folder public yang bisa diakses; semua route lain diteruskan ke index.php.
+:{$PORT:80} {
+	root * /app/public
+	encode zstd gzip
+
+	# Aset hasil build Vite punya nama ber-hash, aman disimpan lama di browser
+	@aset path /build/*
+	header @aset Cache-Control "public, max-age=31536000, immutable"
+
+	php_server {
+		try_files {path} index.php
+	}
+}

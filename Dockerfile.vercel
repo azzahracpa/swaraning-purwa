@@ -1,0 +1,57 @@
+# =====================================================================
+# Image produksi Swaraning Purwa untuk Vercel (runtime container).
+# Tiga tahap: aset Vite (Node), dependensi Composer, lalu runtime FrankenPHP.
+# Tidak ada .env di image: semua variabel diisi dari pengaturan Vercel.
+# =====================================================================
+
+# --- Tahap 1: build aset Tailwind + Alpine dengan Vite ---------------
+FROM node:22-bookworm-slim AS aset
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY vite.config.js tailwind.config.js postcss.config.js ./
+COPY resources ./resources
+RUN npm run build
+
+# --- Dasar runtime: FrankenPHP (PHP + Caddy) -------------------------
+FROM dunglas/frankenphp:1-php8.4-bookworm AS dasar
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && install-php-extensions pdo_mysql intl zip bcmath opcache
+WORKDIR /app
+
+# --- Tahap 2: dependensi Composer tanpa paket dev --------------------
+FROM dasar AS dependensi
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-interaction --no-progress --no-scripts \
+        --optimize-autoloader --prefer-dist
+COPY . .
+COPY --from=aset /app/public/build ./public/build
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views \
+        storage/app/public bootstrap/cache \
+    && composer dump-autoload --no-dev --classmap-authoritative \
+    # Cache yang tidak bergantung pada variabel environment saja.
+    # config:cache sengaja TIDAK dijalankan karena APP_KEY, DB_* dan AWS_*
+    # baru tersedia saat container berjalan di Vercel.
+    && php artisan view:cache \
+    && php artisan event:cache
+
+# --- Tahap 3: runtime -------------------------------------------------
+FROM dasar AS runtime
+COPY --from=dependensi --chown=www-data:www-data /app /app
+COPY --chown=www-data:www-data Caddyfile /etc/frankenphp/Caddyfile
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp \
+    && chown -R www-data:www-data /config/caddy /data/caddy
+
+# Nilai bawaan produksi. Semua tetap bisa ditimpa dari Environment Variables Vercel.
+ENV PORT=80 \
+    APP_ENV=production \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr \
+    SESSION_DRIVER=database \
+    CACHE_STORE=database \
+    QUEUE_CONNECTION=sync \
+    FILESYSTEM_DISK=s3
+
+USER www-data
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]

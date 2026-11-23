@@ -34,6 +34,17 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Email disimpan dalam huruf kecil saat registrasi, jadi input login juga
+     * dirapikan dulu. Tanpa ini "Budi@Contoh.test" gagal masuk di SQLite/PostgreSQL.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'email' => strtolower(trim((string) $this->email)),
+        ]);
+    }
+
+    /**
      * Attempt to authenticate the request's credentials.
      *
      * @throws ValidationException
