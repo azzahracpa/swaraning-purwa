@@ -51,7 +51,7 @@ Contoh dengan **Cloudflare R2** (ada kuota gratis):
 | `AWS_URL` | `https://pub-xxxx.r2.dev` |
 | `AWS_USE_PATH_STYLE_ENDPOINT` | `true` |
 
-Alternatif: Supabase Storage (punya endpoint S3) atau Backblaze B2. Aplikasi tidak memasang ACL per berkas,
+Alternatif: Supabase Storage (punya endpoint S3, dipakai untuk produksi kelompok ini) atau Backblaze B2. Aplikasi tidak memasang ACL per berkas,
 jadi akses publik diatur dari pengaturan bucket di dasbor penyedia.
 
 ## 3. Buat APP_KEY
@@ -121,6 +121,10 @@ lalu isi path lengkapnya. Hapus `.env.production` dari laptop setelah selesai bi
 1. Vercel → **Add New → Project** → impor repositori GitHub kelompok.
 2. Root directory: `./` (tempat `vercel.json`). Framework preset: biarkan, `vercel.json` sudah menentukan container.
 3. Klik **Deploy**. Setiap push ke `main` membuat deployment Production; branch lain membuat Preview.
+4. **Samakan region dengan database.** Buka **Settings → Functions → Function Region**, pilih
+   region yang sama dengan database (untuk TiDB Singapura: **Singapore, `sin1`**), **Save**, lalu
+   **Deployments → ⋯ → Redeploy**. Cek header respons `x-vercel-id`: bagian kedua harus `sin1`.
+   Bawaan Vercel adalah Washington (`iad1`); kalau dibiarkan, setiap query menyeberang benua.
 
 ## 7. Daftar uji setelah deploy
 
@@ -147,6 +151,7 @@ lalu isi path lengkapnya. Hapus `.env.production` dari laptop setelah selesai bi
 | Halaman tanpa CSS | Build Vite gagal. Cek log tahap `aset` di build Vercel. |
 | Link `http://` / mixed content | `APP_URL` belum diisi `https://...`. |
 | Upload gagal 500 | Kredensial `AWS_*` salah atau endpoint keliru. Disk `s3` sengaja melempar galat agar terlihat di Logs. |
+| Halaman lambat (5 detik lebih) atau 500 di halaman yang banyak data | Region aplikasi jauh dari database. Samakan Function Region (langkah 6.4), lalu periksa apakah ada query di dalam perulangan. |
 | Foto koleksi seeder tidak tampil | Foto ada di `public/images/museum`, ikut ter-build. Pastikan seeder dijalankan ke database produksi. |
 
 ## Alternatif bila runtime container tidak tersedia
