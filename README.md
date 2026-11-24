@@ -3,14 +3,16 @@
 Website informasi dan edukasi digital **Museum Mpu Purwa Kota Malang**.
 Project akhir mata kuliah Pengembangan Aplikasi Web Lanjut, FILKOM UB.
 
-> Semua data di aplikasi ini adalah **data contoh** dan belum diverifikasi pihak museum.
-> Situs ini bukan situs resmi Museum Mpu Purwa.
+> Situs ini adalah prototipe akademik, **bukan situs resmi Museum Mpu Purwa**.
+> Foto dan deskripsi koleksi bersumber dari Wikimedia Commons (lihat [Sumber foto](#sumber-foto)),
+> sedangkan alamat, telepon, dan jam buka diambil dari liputan media. Data ini belum diverifikasi
+> langsung oleh pihak museum.
 
 ## Alamat aplikasi
 
 | Lingkungan | Alamat |
 | --- | --- |
-| Produksi (Vercel) | (diisi setelah deploy, Senin 23 November 2026) |
+| Produksi (Vercel) | https://swaraning-purwa.vercel.app |
 | Laptop | http://localhost:8000 |
 
 Pemeriksaan cepat: buka `/health`, hasilnya `{"status":"ok","database":"ok"}`.
@@ -39,6 +41,19 @@ Pemeriksaan cepat: buka `/health`, hasilnya `{"status":"ok","database":"ok"}`.
 - Blade, Tailwind CSS 3 lewat Vite, Alpine.js
 - Laravel Breeze (stack Blade) untuk autentikasi
 - Font Cormorant Garamond dan Inter dibundel lewat `@fontsource` (tanpa CDN)
+- PHPUnit untuk pengujian otomatis
+
+Produksi:
+
+| Bagian | Layanan |
+| --- | --- |
+| Aplikasi | Vercel, runtime container FrankenPHP, region Singapura (`sin1`) |
+| Basis data | TiDB Cloud Starter (kompatibel MySQL), region Singapura |
+| Foto unggahan admin | Supabase Storage lewat protokol S3, region Singapura |
+
+Aplikasi dan database sengaja berada di region yang sama. Saat aplikasi masih berjalan di
+Washington (`iad1`), setiap halaman butuh 5 sampai 7 detik dan halaman Jadwal Kunjungan sempat
+error 500. Setelah dipindah ke Singapura, halaman terbuka dalam kurang dari 1 detik.
 
 ## Menjalankan di laptop
 
@@ -64,7 +79,7 @@ php artisan serve      # terminal 2
 
 Buka http://localhost:8000
 
-### Akun contoh dari seeder
+### Akun contoh dari seeder (laptop)
 
 | Peran | Email | Kata sandi |
 | --- | --- | --- |
@@ -77,7 +92,21 @@ Di produksi seeder **menolak berjalan** bila kata sandi masih `password` atau ku
 Kata sandi akun demo produksi dibagikan langsung kepada dosen, tidak ditulis di repo.
 
 Seeder aman dijalankan ulang (`php artisan db:seed`): data yang sudah ada, termasuk yang sudah
-diubah pengelola, tidak ditimpa dan tidak dobel. Jadwal contoh dibuat untuk 4 pekan ke depan.
+diubah pengelola, tidak ditimpa dan tidak dobel.
+
+| Data awal | Isi |
+| --- | --- |
+| Akun | 1 admin dan 2 pengguna |
+| Kategori | 6: Arca, Prasasti, Benda Pemujaan, Fragmen Bangunan, Alat Prasejarah, Diorama |
+| Koleksi | 37 koleksi Museum Mpu Purwa, masing-masing dengan foto asli dari Wikimedia Commons |
+| Artikel | 8 (7 terbit, 1 draf) |
+| Profil museum | Sejarah singkat, alamat, telepon, dan jam buka |
+| Jadwal | 4 pekan ke depan, 3 slot per hari (09.00, 10.30, 13.00), Senin libur |
+| Kuis | 3 (2 aktif, 1 draf) |
+| Reservasi | 6 contoh dengan berbagai status |
+
+Kolom periode, asal, dan lokasi koleksi hanya diisi kalau sumbernya menyebutkan, supaya tidak ada
+informasi karangan. Admin dapat melengkapinya lewat halaman Kelola Koleksi.
 
 ## Struktur dan konvensi kode
 
@@ -131,7 +160,10 @@ Aturan tim:
    ```
    Untuk setujui reservasi pakai `jenis: 'setujui'`.
 7. **Eager loading** untuk relasi yang ditampilkan di daftar, misal `Collection::with(['category', 'primaryImage'])`.
-8. Teks antarmuka berbahasa Indonesia. Data contoh diberi label "contoh".
+8. Teks antarmuka berbahasa Indonesia.
+9. **Hindari query di dalam perulangan.** Hitung jumlah atau total sekali lewat `withSum`,
+   `withCount`, atau eager loading, lalu pakai hasilnya di view. Database produksi berada di
+   server lain, sehingga setiap query tambahan menambah waktu muat halaman.
 
 ### Nama route yang disepakati
 
@@ -208,7 +240,7 @@ $path = $request->file('foto')->store('koleksi');          // disk mengikuti FIL
 $koleksi->images()->create(['image_url' => $path, 'is_primary' => true]);
 
 // tampilkan (model / view)
-$image->url   // accessor memakai Storage::url(), gambar contoh memakai asset()
+$image->url   // accessor memakai Storage::url(), foto bawaan seeder memakai asset()
 ```
 
 Jangan menulis path `public/storage/...` secara langsung.
@@ -232,7 +264,6 @@ Komponen Blade:
 | Badge status reservasi | `<x-badge-status :status="$reservasi->status" />` |
 | Badge keadaan (admin) | `<x-badge-keadaan nada="positif">Aktif</x-badge-keadaan>` |
 | Label seksi | `<x-label-seksi nomor="02" label="Koleksi unggulan" />` |
-| Penanda data contoh | `<x-penanda-contoh />` |
 | Tempat foto | `<x-tempat-foto class="aspect-[4/5] rounded-relung" keterangan="Arca" />` |
 | Peringatan | `<x-peringatan jenis="galat" judul="Gagal">Pesan</x-peringatan>` |
 | Keadaan kosong | `<x-keadaan-kosong judul="Belum ada reservasi" />` |
@@ -258,6 +289,7 @@ php artisan test
 ```
 
 Tes memakai SQLite di memori (lihat `phpunit.xml`), jadi tidak menyentuh database MySQL lokal.
+Saat ini terdapat **207 tes** dan semuanya lulus.
 Menjalankan satu berkas atau satu skenario saja:
 
 ```bash
@@ -282,6 +314,15 @@ tiap berkas juga menguji kasus tepi yang berkaitan.
 | T08 | Submit kuis | Skor sesuai kunci jawaban | `T08SubmitKuisTest` | Izza |
 | T09 | Pilih opsi dari soal berbeda | Jawaban ditolak | `T09OpsiSoalBerbedaTest` | Izza |
 | T10 | Unggah file non-gambar | Ditolak di semua form gambar | `T10UnggahNonGambarTest` | Amel |
+
+Tes lain yang penting:
+
+| Berkas tes | Yang diuji |
+| --- | --- |
+| `StrukturDatabaseTest` | 14 tabel dan kolom sesuai ERD, seeder dan relasi berjalan |
+| `Seeder*Test` | Semua seeder aman dijalankan ulang dan tidak menimpa suntingan pengelola |
+| `KesiapanDeployTest`, `KesiapanServerlessTest` | Route `/health`, berkas deploy, disk S3, HTTPS |
+| `PerbaikanProduksiTest` | Halaman Jadwal tidak menjalankan query per slot, admin yang membuka halaman pengguna dialihkan ke `/admin` |
 
 Catatan T10: `UploadedFile::fake()` melaporkan tipe MIME dari **nama** berkas, sehingga berkas teks
 bernama `.jpg` bisa lolos di tes padahal di aplikasi sungguhan ditolak (Laravel membaca isi berkas).
