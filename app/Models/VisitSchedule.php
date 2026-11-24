@@ -92,7 +92,11 @@ class VisitSchedule extends Model
             return 'ditutup';
         }
 
-        $disetujui = $this->jumlah_disetujui ?? $this->jumlahDisetujui();
+        // Kolom bantu bernilai null kalau belum ada reservasi disetujui. Jangan
+        // dianggap "tidak ada" lalu menjalankan query lagi untuk setiap slot.
+        $disetujui = array_key_exists('jumlah_disetujui', $this->getAttributes())
+            ? (int) $this->jumlah_disetujui
+            : $this->jumlahDisetujui();
 
         return $disetujui >= $this->capacity ? 'penuh' : 'dibuka';
     }
